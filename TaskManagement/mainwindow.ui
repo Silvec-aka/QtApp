@@ -151,6 +151,9 @@
    <property name="text">
     <string>Quitter</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
  </widget>
  <resources/>
