@@ -13,7 +13,7 @@ int TacheTerminale::getDuree()
     return duree_;
 }
 
-int TacheTerminale::getNum()
+double TacheTerminale::getNum()
 {
     // TODO
     return 0;

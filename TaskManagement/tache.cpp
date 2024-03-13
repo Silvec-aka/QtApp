@@ -28,6 +28,12 @@ int Tache::getId()
 }
 
 
+void Tache::setNum(double num)
+{
+    num_ = num;
+}
+
+
 QString Tache::getNom()
 {
     return nom_;

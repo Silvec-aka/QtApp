@@ -14,7 +14,7 @@ int TacheComposite::getDuree()
     return duree_;
 }
 
-int TacheComposite::getNum()
+double TacheComposite::getNum()
 {
     // TODO
     return 0;

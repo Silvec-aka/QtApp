@@ -12,7 +12,7 @@ class TacheTerminale : public Tache
         TacheTerminale(QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>(), QList<Tache> composants = QList<Tache>());
 
         int getDuree();
-        int getNum();
+        double getNum();
         double getCompletion();
 
         void ajouterComposant(Tache t);
