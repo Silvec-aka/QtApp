@@ -10,10 +10,16 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    tache.cpp \
+    tachecomposite.cpp \
+    tacheterminale.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    tache.h \
+    tachecomposite.h \
+    tacheterminale.h
 
 FORMS += \
     mainwindow.ui
