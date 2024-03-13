@@ -3,13 +3,34 @@
 
 #include <QObject>
 
-class Tache : public QObject
+class Tache
 {
-    Q_OBJECT
-public:
-    explicit Tache(QObject *parent = nullptr);
 
-signals:
+    protected:
+        int id_;
+        QString nom_;
+        QList<Tache> suivantes_;
+        QList<Tache> precedentes_;
+
+
+    public:
+        explicit Tache(QString nom = "nouvelle tache", QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
+        Tache(Tache *tache);
+        virtual int getDuree();
+        virtual int getNum();
+        virtual double getCompletion();
+
+        int getId();
+        QString getNom();
+        void SetNom(QString nom) ;
+        QList<Tache> getSuivantes();
+        QList<Tache> getPrecedentes();
+        void ajouterSuivante(Tache tache);
+        void ajouterPrecedente(Tache tache);
+        Tache retirerSuivante(int id);
+        Tache retirerPrecedente(int id);
+
+    signals:
 };
 
 #endif // TACHE_H
