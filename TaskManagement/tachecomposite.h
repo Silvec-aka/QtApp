@@ -5,8 +5,16 @@
 
 class TacheComposite : public Tache
 {
-public:
-    explicit TacheComposite(QObject *parent = nullptr);
+
+    public:
+        TacheComposite(QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
+
+        int getDuree();
+        int getNum();
+        double getCompletion();
+
+        void setDuree(int duree);
+        void setCompletion(double completion);
 };
 
 #endif // TACHECOMPOSITE_H

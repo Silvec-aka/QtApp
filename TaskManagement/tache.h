@@ -9,12 +9,14 @@ class Tache
     protected:
         int id_;
         QString nom_;
+        int duree_;
+        double completion_;
         QList<Tache> suivantes_;
         QList<Tache> precedentes_;
 
 
     public:
-        explicit Tache(QString nom = "nouvelle tache", QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
+        explicit Tache(QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
         Tache(Tache *tache);
         virtual int getDuree();
         virtual int getNum();

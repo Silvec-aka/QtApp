@@ -1,9 +1,11 @@
 #include "tache.h"
 
-Tache::Tache(QString nom, QList<Tache> suivantes, QList<Tache> precedentes)
+Tache::Tache(QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes)
 {
     // TODO id
     nom_ = nom;
+    duree_ = duree;
+    completion_ = completion;
     suivantes_ = suivantes;
     precedentes_ = precedentes;
 }
@@ -13,6 +15,8 @@ Tache::Tache(Tache *tache)
 {
     id_ = tache->id_;
     nom_ = tache->nom_;
+    duree_ = tache->duree_;
+    completion_ = tache->completion_;
     suivantes_ = tache->suivantes_;
     precedentes_ = tache->precedentes_;
 }
