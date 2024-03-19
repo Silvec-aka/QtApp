@@ -24,13 +24,18 @@ class Tache
         virtual double getCompletion();
 
         int getId();
+
         void setNum(double num);
+
         QString getNom();
         void SetNom(QString nom) ;
+
         QList<Tache> getSuivantes();
         QList<Tache> getPrecedentes();
+
         void ajouterSuivante(Tache tache);
         void ajouterPrecedente(Tache tache);
+
         Tache retirerSuivante(int id);
         Tache retirerPrecedente(int id);
 
