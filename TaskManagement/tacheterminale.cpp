@@ -4,8 +4,6 @@ TacheTerminale::TacheTerminale(QString nom, int duree, double completion, QList<
     Tache(nom, duree, completion, suivantes, precedentes)
 {
     if (!suivantes_.isEmpty()) throw std::exception("Cette tâche n'est pas terminale.");
-
-    composants_ = composants;
 }
 
 
@@ -15,11 +13,6 @@ int TacheTerminale::getDuree()
     return duree_;
 }
 
-double TacheTerminale::getNum()
-{
-    // TODO
-    return 0;
-}
 
 double TacheTerminale::getCompletion()
 {
@@ -37,24 +30,23 @@ double TacheTerminale::getCompletion()
     return completion / nbTask;
 }
 
-
-
-void TacheTerminale::ajouterComposant(Tache t)
+void TacheTerminale::setNum()
 {
-    composants_.append(t);
+    //variable ext
+    double nb = 0.0;
+
+    num_ = nb;
+    nb += 1.0;
 }
 
-Tache TacheTerminale::supprimerComposant(int id)
-{
-    for (int i = 0; i < composants_.count(); i++)
-    {
-        if (composants_[i].getId() == id)
-        {
-            Tache t = composants_[i];
-            composants_.removeAt(i);
-            return t;
-        }
-    }
 
-    throw std::exception("Il n'y a pas de tâche correspondante");
+
+void TacheTerminale::setDuree(int duree)
+{
+    duree_ = duree;
+}
+
+void TacheTerminale::setCompletion(double completion)
+{
+    completion_ = completion;
 }

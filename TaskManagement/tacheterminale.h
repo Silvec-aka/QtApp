@@ -5,18 +5,15 @@
 
 class TacheTerminale : public Tache
 {
-    private:
-        QList<Tache> composants_;
-
     public:
         TacheTerminale(QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>(), QList<Tache> composants = QList<Tache>());
 
-        int getDuree();
-        double getNum();
-        double getCompletion();
+        int getDuree() override;
+        double getCompletion() override;
+        void setNum() override;
 
-        void ajouterComposant(Tache t);
-        Tache supprimerComposant(int id);
+        void setDuree(int duree);
+        void setCompletion(double completion);
 };
 
 #endif // TACHETERMINALE_H

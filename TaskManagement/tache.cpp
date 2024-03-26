@@ -8,6 +8,8 @@ Tache::Tache(QString nom, int duree, double completion, QList<Tache> suivantes, 
     completion_ = completion;
     suivantes_ = suivantes;
     precedentes_ = precedentes;
+
+    setNum();
 }
 
 
@@ -22,9 +24,54 @@ Tache::Tache(Tache *tache)
 }
 
 
+int Tache::getDuree()
+{
+    // On initialise la durée à la durée de cette tâche
+    int duree = duree_;
+
+    // On y ajoute la durée de toutes les tâches précèdentes non complétées
+    for (int i = 0; i < precedentes_.count(); i++)
+    {
+        if (precedentes_[i].getCompletion() != 1.0f) duree += precedentes_[i].getDuree();
+    }
+
+    return duree;
+}
+
+
+double Tache::getCompletion()
+{
+    // On initialise la complétion comme ayant la valeur de la tâche actuelle
+    double completion = completion_;
+    double nbTask = 1;
+
+    // On y ajoute la complétions des tâches précèdentes
+    for (int i = 0; i < precedentes_.count(); i++)
+    {
+        completion += precedentes_[i].getCompletion();
+        nbTask ++;
+    }
+
+    return completion / nbTask;
+}
+
+
 int Tache::getId()
 {
     return id_;
+}
+
+
+void Tache::setNum()
+{
+    // TODO
+
+    if(precedentes_.isEmpty()) num_ = 1.0;
+    else if (precedentes_.count() > 1) num_ = precedentes_[0].getNum() + 0.1; // TODO
+    else
+    {
+        num_ = precedentes_[0].getNum() + 1.0;
+    }
 }
 
 
