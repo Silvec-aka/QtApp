@@ -82,7 +82,7 @@ Tache Tache::retirerSuivante(int id)
         }
     }
 
-    // TODO Throw exception
+    throw std::exception("Il n'existe pas de tâche suivante correspondante.");
 }
 
 
@@ -98,5 +98,5 @@ Tache Tache::retirerPrecedente(int id)
         }
     }
 
-    // TODO Throw exception
+    throw std::exception("Il n'existe pas de tâche suivante correspondante.");
 }
