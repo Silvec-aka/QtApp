@@ -17,7 +17,7 @@ class Tache
 
 
     public:
-        explicit Tache(QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
+        explicit Tache(int id, double num, QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
         Tache(Tache *tache);
         virtual int getDuree();
         virtual double getCompletion();
@@ -39,6 +39,10 @@ class Tache
 
         Tache retirerSuivante(int id);
         Tache retirerPrecedente(int id);
+
+        virtual QJsonObject toJson() const;
+        static Tache fromJson(const QJsonObject & obj, QMap<int, QList<int>> &mapSuivantes, QMap<int, QList<int>> &mapPrecedentes);
+
 
     signals:
 };

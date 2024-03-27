@@ -1,6 +1,8 @@
 #include "tacheterminale.h"
+#include <QJsonArray>
 
-TacheTerminale::TacheTerminale(QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes, QList<Tache> composants) :
+
+TacheTerminale::TacheTerminale(QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes) :
     Tache(nom, duree, completion, suivantes, precedentes)
 {
     if (!suivantes_.isEmpty()) throw std::exception("Cette tâche n'est pas terminale.");

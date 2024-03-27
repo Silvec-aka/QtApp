@@ -91,3 +91,67 @@ Tache TacheComposite::supprimerComposant(int id)
 
     throw std::exception("Il n'y a pas de tâche correspondante");
 }
+
+QJsonObject Tache::toJson() const
+{
+    QJsonObject json;
+
+    // On n'enregistre pas l'id est le num car ils seront déterminé par le code une fois la tâche créée
+    json["nom"] = nom_;
+    json["duree"] = duree_;
+    json["completion"] = completion_;
+
+    QJsonArray suivantes;
+    QJsonArray precedentes;
+    for (int i=0; i<suivantes_.count(); i++)
+    {
+        suivantes.append((suivantes_[i]).toJson());
+    }
+    json["suivantes"] = suivantes;
+    for (int i=0; i<precedentes_.count(); i++)
+    {
+        suivantes.append((precedentes_[i]).toJson());
+    }
+    json["precedentes"] = precedentes;
+
+    return json;
+}
+
+
+TacheComposite TacheComposite::fromJson(const QJsonObject & obj, QMap<int, QList<int>> mapSuivantes, QMap<int, QList<int>> mapPrecedentes, QMap<int, QList<int>> mapComposites)
+{
+    // On vérifie que la tâche est terminale
+    if (obj.contains("composants"))
+    {
+        throw std::exception("Chargement d'une tâche non terminale");
+    }
+
+    const int id = obj["id"].toInt();
+
+    //On détermine les tâches suivantes et précèdentes de nos listes que l'on stocke dans des dictionnaires
+    QList<int> suivantes = QList<int>();
+    for(const QJsonValue &s : obj["suivantes"].toArray())
+    {
+        suivantes.append(s.toInt());
+    }
+    mapSuivantes.insert(id, suivantes);
+
+    QList<int> precedentes = QList<int>();
+    for(const QJsonValue &s : obj["precedentes"].toArray())
+    {
+        precedentes.append(s.toInt());
+    }
+    mapPrecedentes.insert(id, precedentes);
+
+
+    // On affecte toute les valeurs à notre tâche créée
+    Tache t(
+        obj["id"].toInt(),
+        obj["num"].toDouble(),
+        obj["nom"].toString(),
+        obj["duree"].toDouble(),
+        obj["completion"].toDouble()
+        );
+
+    return t;
+}

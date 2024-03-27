@@ -1,8 +1,12 @@
 #include "tache.h"
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QMap>
 
-Tache::Tache(QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes)
+Tache::Tache(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes)
 {
-    // TODO id
+    id_ = id;
+    num_ = num;
     nom_ = nom;
     duree_ = duree;
     completion_ = completion;
@@ -146,4 +150,69 @@ Tache Tache::retirerPrecedente(int id)
     }
 
     throw std::exception("Il n'existe pas de tâche suivante correspondante.");
+}
+
+QJsonObject Tache::toJson() const
+{
+    QJsonObject json;
+
+    json["id"] = id_;
+    json["num"] = num_;
+    json["nom"] = nom_;
+    json["duree"] = duree_;
+    json["completion"] = completion_;
+
+    QJsonArray suivantes;
+    QJsonArray precedentes;
+    for (int i=0; i<suivantes_.count(); i++)
+    {
+        suivantes.append((suivantes_[i]).id_);
+    }
+    json["suivantes"] = suivantes;
+    for (int i=0; i<precedentes_.count(); i++)
+    {
+        suivantes.append((precedentes_[i]).id_);
+    }
+    json["precedentes"] = precedentes;
+
+    return json;
+}
+
+
+Tache Tache::fromJson(const QJsonObject & obj, QMap<int, QList<int>> &mapSuivantes, QMap<int, QList<int>> &mapPrecedentes)
+{
+    // On vérifie que la tâche est terminale
+    if (obj.contains("composants"))
+    {
+        throw std::exception("Chargement d'une tâche non terminale");
+    }
+
+    const int id = obj["id"].toInt();
+
+    //On détermine les tâches suivantes et précèdentes de nos listes que l'on stocke dans des dictionnaires
+    QList<int> suivantes = QList<int>();
+    for(const QJsonValue &s : obj["suivantes"].toArray())
+    {
+        suivantes.append(s.toInt());
+    }
+    mapSuivantes.insert(id, suivantes);
+
+    QList<int> precedentes = QList<int>();
+    for(const QJsonValue &s : obj["precedentes"].toArray())
+    {
+        precedentes.append(s.toInt());
+    }
+    mapPrecedentes.insert(id, precedentes);
+
+
+    // On affecte toute les valeurs à notre tâche créée
+    Tache t(
+        obj["id"].toInt(),
+        obj["num"].toDouble(),
+        obj["nom"].toString(),
+        obj["duree"].toDouble(),
+        obj["completion"].toDouble()
+        );
+
+    return t;
 }
