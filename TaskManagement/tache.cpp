@@ -1,6 +1,4 @@
 #include "tache.h"
-#include <QJsonObject>
-#include <QJsonArray>
 #include <QMap>
 
 Tache::Tache(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes)
@@ -28,7 +26,7 @@ Tache::Tache(Tache *tache)
 }
 
 
-int Tache::getDuree()
+int Tache::getDuree() const
 {
     // On initialise la durée à la durée de cette tâche
     int duree = duree_;
@@ -43,7 +41,7 @@ int Tache::getDuree()
 }
 
 
-double Tache::getCompletion()
+double Tache::getCompletion() const
 {
     // On initialise la complétion comme ayant la valeur de la tâche actuelle
     double completion = completion_;
@@ -60,7 +58,7 @@ double Tache::getCompletion()
 }
 
 
-int Tache::getId()
+int Tache::getId() const
 {
     return id_;
 }
@@ -85,7 +83,7 @@ void Tache::setNum(double num)
 }
 
 
-QString Tache::getNom()
+QString Tache::getNom() const
 {
     return nom_;
 }
@@ -97,25 +95,25 @@ void Tache::SetNom(QString nom)
 }
 
 
-QList<Tache> Tache::getSuivantes()
+QList<Tache> Tache::getSuivantes() const
 {
     return suivantes_;
 }
 
 
-QList<Tache> Tache::getPrecedentes()
+QList<Tache> Tache::getPrecedentes() const
 {
     return precedentes_;
 }
 
 
-void Tache::ajouterSuivante(Tache tache)
+void Tache::ajouterSuivante(const Tache& tache)
 {
     suivantes_.append(tache);
 }
 
 
-void Tache::ajouterPrecedente(Tache tache)
+void Tache::ajouterPrecedente(const Tache& tache)
 {
     precedentes_.append(tache);
 }
@@ -154,7 +152,36 @@ Tache Tache::retirerPrecedente(int id)
 
 QJsonObject Tache::toJson() const
 {
-    QJsonObject json;
+    QJsonObject tObj;
+    tObj["id"] = id_;
+    tObj["num"] = num_;
+    tObj["nom"] = nom_;
+    tObj["duree"] = duree_;
+    tObj["completion"] = completion_;
+
+    if (suivantes_.size() > 0)
+    {
+        QJsonArray suivantesArray;
+        for (const Tache& suivante : suivantes_)
+        {
+            suivantesArray.append(suivante.getId());
+        }
+        tObj["suivantes"] = suivantesArray;
+    }
+
+    if (precedentes_.size() > 0)
+    {
+        QJsonArray precedentesArray;
+
+        for (const Tache& precedente : precedentes_)
+        {
+            precedentesArray.append(precedente.getId());
+        }
+        tObj["precedentes"] = precedentesArray;
+    }
+
+    return tObj;
+    /*QJsonObject json;
 
     json["id"] = id_;
     json["num"] = num_;
@@ -175,44 +202,5 @@ QJsonObject Tache::toJson() const
     }
     json["precedentes"] = precedentes;
 
-    return json;
-}
-
-
-Tache Tache::fromJson(const QJsonObject & obj, QMap<int, QList<int>> &mapSuivantes, QMap<int, QList<int>> &mapPrecedentes)
-{
-    // On vérifie que la tâche est terminale
-    if (obj.contains("composants"))
-    {
-        throw std::exception("Chargement d'une tâche non terminale");
-    }
-
-    const int id = obj["id"].toInt();
-
-    //On détermine les tâches suivantes et précèdentes de nos listes que l'on stocke dans des dictionnaires
-    QList<int> suivantes = QList<int>();
-    for(const QJsonValue &s : obj["suivantes"].toArray())
-    {
-        suivantes.append(s.toInt());
-    }
-    mapSuivantes.insert(id, suivantes);
-
-    QList<int> precedentes = QList<int>();
-    for(const QJsonValue &s : obj["precedentes"].toArray())
-    {
-        precedentes.append(s.toInt());
-    }
-    mapPrecedentes.insert(id, precedentes);
-
-
-    // On affecte toute les valeurs à notre tâche créée
-    Tache t(
-        obj["id"].toInt(),
-        obj["num"].toDouble(),
-        obj["nom"].toString(),
-        obj["duree"].toDouble(),
-        obj["completion"].toDouble()
-        );
-
-    return t;
+    return json;*/
 }

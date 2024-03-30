@@ -2,6 +2,8 @@
 #define TACHE_H
 
 #include <QObject>
+#include <QJsonObject>
+#include <QJsonArray>
 
 class Tache
 {
@@ -19,29 +21,28 @@ class Tache
     public:
         explicit Tache(int id, double num, QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
         Tache(Tache *tache);
-        virtual int getDuree();
-        virtual double getCompletion();
+        virtual int getDuree() const;
+        virtual double getCompletion() const;
         virtual void setNum();
 
-        int getId();
+        int getId() const;
 
-        double getNum();
+        double getNum() const;
         void setNum(double num);
 
-        QString getNom();
+        QString getNom() const;
         void SetNom(QString nom) ;
 
-        QList<Tache> getSuivantes();
-        QList<Tache> getPrecedentes();
+        QList<Tache> getSuivantes() const;
+        QList<Tache> getPrecedentes() const;
 
-        void ajouterSuivante(Tache tache);
-        void ajouterPrecedente(Tache tache);
+        void ajouterSuivante(const Tache& tache);
+        void ajouterPrecedente(const Tache& tache);
 
         Tache retirerSuivante(int id);
         Tache retirerPrecedente(int id);
 
         virtual QJsonObject toJson() const;
-        static Tache fromJson(const QJsonObject & obj, QMap<int, QList<int>> &mapSuivantes, QMap<int, QList<int>> &mapPrecedentes);
 
 
     signals:

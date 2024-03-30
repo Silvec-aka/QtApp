@@ -2,21 +2,21 @@
 #include <QJsonArray>
 
 
-TacheTerminale::TacheTerminale(QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes) :
-    Tache(nom, duree, completion, suivantes, precedentes)
+TacheTerminale::TacheTerminale(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes) :
+    Tache(id, num, nom, duree, completion, suivantes, precedentes)
 {
     if (!suivantes_.isEmpty()) throw std::exception("Cette tâche n'est pas terminale.");
 }
 
 
 
-int TacheTerminale::getDuree()
+int TacheTerminale::getDuree() const
 {
     return duree_;
 }
 
 
-double TacheTerminale::getCompletion()
+double TacheTerminale::getCompletion() const
 {
     // On initialise la complétion comme ayant la valeur de la tâche actuelle
     double completion = 0.0;

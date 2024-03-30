@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "tache.h"
+#include "tachecomposite.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,8 +26,10 @@ private:
     Ui::MainWindow *ui;
     QList<Tache*> *taches;
 
-    bool writeToJson(const QString & filename, const QJsonObject & obj);
+    bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);
+    Tache findTache(int id) const;
+    TacheComposite findTacheComposite(int id) const;
 
     void saveFile(const QString & filename);
     void saveModified();
