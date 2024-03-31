@@ -95,7 +95,7 @@ bool MainWindow::loadFromJson(const QString & filename)
             }
             precedentesMap->insert(id, precedentesId);
 
-
+            Tache* t;
             // Gestion du cas où l'on à une classe composite
             if (taskObject.contains("composants"))
             {
@@ -116,7 +116,7 @@ bool MainWindow::loadFromJson(const QString & filename)
             }
 
             // On ajoute la atche à notre liste de tâche
-            taches->insert(t);
+            taches->append(t);
         }
     }
 
