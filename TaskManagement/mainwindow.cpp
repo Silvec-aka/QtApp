@@ -183,9 +183,14 @@ Tache MainWindow::findTache(int id) const
 
 TacheComposite MainWindow::findTacheComposite(int id) const
 {
-    for (const TacheComposite& t : *taches)
+    if (const TacheComposite tc = dynamic_cast<const TacheComposite*>(t))
+    for (const TacheComposite& tc : *taches)
     {
-        if (t.getId() == id) return t;
+
+        if (t.getId() == id)
+        {
+            return tc;
+        }
     }
 }
 
