@@ -29,7 +29,7 @@ private:
     bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);
     Tache findTache(int id) const;
-    TacheComposite findTacheComposite(int id) const;
+    const TacheComposite* findTacheComposite(int id) const;
 
     void saveFile(const QString & filename);
     void saveModified();
