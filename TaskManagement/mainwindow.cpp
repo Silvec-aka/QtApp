@@ -7,7 +7,8 @@
 #include <QJsonObject>
 #include <QFile>
 #include <QJsonDocument>
-
+#include <QFileInfo>
+#include <QFileDialog>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -22,9 +23,38 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::saveFile(const QString & filename)
+{
+    bool success = writeToJson(filename);
+
+    if (success)
+    {
+        QMessageBox::information(this, tr("Sauvegader"), tr("Le fichier ") + filename + tr("a bien été enregistré"));
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("Sauvegader"), tr("Le fichier ") + filename + tr("n'a pas pû être enregistré"));
+    }
+}
+
 void MainWindow::on_actionSauvegarder_triggered()
 {
-    saveModified();
+    QString filename;
+    filename = QFileDialog::getSaveFileName(this, tr("Sauvegarder ?"), QDir::currentPath(), "Text Files (*.json)");
+
+    if (!filename.isEmpty())
+    {
+        QFileInfo fi(filename);
+        int button = QMessageBox::question(this, tr("Sauvegarder ?"), tr("Sauvegader le fichier ") + fi.fileName());
+        if (button == QMessageBox::Yes)
+        {
+            saveFile(filename);
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("Nom vide"), tr("Impossible de sauvegarder un fichier avec un nom vide"));
+    }
 }
 
 
@@ -46,7 +76,6 @@ bool MainWindow::writeToJson(const QString & filename)
         file.write(doc.toJson());
         file.close();
     }
-
 }
 
 bool MainWindow::loadFromJson(const QString & filename)
@@ -191,15 +220,4 @@ const TacheComposite* MainWindow::findTacheComposite(int id) const
             if (t->getId() == id) return tc;
         }
     }
-}
-
-
-void MainWindow::saveFile(const QString & filename)
-{
-
-}
-
-void MainWindow::saveModified()
-{
-
 }

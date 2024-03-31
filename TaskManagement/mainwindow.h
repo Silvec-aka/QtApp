@@ -32,6 +32,5 @@ private:
     const TacheComposite* findTacheComposite(int id) const;
 
     void saveFile(const QString & filename);
-    void saveModified();
 };
 #endif // MAINWINDOW_H
