@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tacheterminale.h"
+
 #include <QMessageBox>
 #include <QJsonArray>
 #include <QJsonObject>
