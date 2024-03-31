@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -181,15 +182,13 @@ Tache MainWindow::findTache(int id) const
     }
 }
 
-TacheComposite MainWindow::findTacheComposite(int id) const
+const TacheComposite* MainWindow::findTacheComposite(int id) const
 {
-    if (const TacheComposite tc = dynamic_cast<const TacheComposite*>(t))
-    for (const TacheComposite& tc : *taches)
+    for (const Tache* t : *taches)
     {
-
-        if (t.getId() == id)
+        if (const TacheComposite* tc = dynamic_cast<const TacheComposite*>(t))
         {
-            return tc;
+            if (t->getId() == id) return tc;
         }
     }
 }
