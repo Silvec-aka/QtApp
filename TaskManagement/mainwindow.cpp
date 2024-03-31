@@ -32,7 +32,7 @@ bool MainWindow::writeToJson(const QString & filename)
     QJsonArray taskArray;
 
     //QtPrivate::QForeachContainer<QList<Tache*>*>
-    foreach (const Tache& t, taches)
+    for (const Tache& t : *taches)
     {
         taskArray.append(t.toJson());
     }
