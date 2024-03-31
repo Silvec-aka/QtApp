@@ -162,7 +162,7 @@ bool MainWindow::loadFromJson(const QString & filename)
     for (int i=0; i < keys.count(); i++)
     {
         // On détermine la tâche à modifier
-        TacheComposite t = findTacheComposite(keys[i]);
+        TacheComposite t = *findTacheComposite(keys[i]);
         values = composantsMap->value(keys[i]);
 
         for (int j=0; i < values.count(); j++)
