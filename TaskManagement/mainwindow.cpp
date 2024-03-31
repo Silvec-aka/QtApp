@@ -175,7 +175,7 @@ bool MainWindow::loadFromJson(const QString & filename)
 
 Tache MainWindow::findTache(int id) const
 {
-    foreach(Tache t, taches)
+    for (const Tache& t : *taches)
     {
         if (t.getId() == id) return t;
     }
@@ -183,7 +183,7 @@ Tache MainWindow::findTache(int id) const
 
 TacheComposite MainWindow::findTacheComposite(int id) const
 {
-    foreach(TacheComposite t, taches)
+    for (const TacheComposite& t : *taches)
     {
         if (t.getId() == id) return t;
     }
