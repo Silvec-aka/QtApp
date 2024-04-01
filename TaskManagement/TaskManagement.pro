@@ -22,6 +22,7 @@ HEADERS += \
     tacheterminale.h
 
 FORMS += \
+    addTask.ui \
     mainwindow.ui
 
 # Default rules for deployment.
