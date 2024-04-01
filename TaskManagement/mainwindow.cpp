@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QStandardItemModel>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -221,3 +222,27 @@ const TacheComposite* MainWindow::findTacheComposite(int id) const
         }
     }
 }
+
+void MainWindow::update_listView()
+{
+    ui->listView->reset();
+
+    // Create a new QStandardItemModel for the QListView
+    QStandardItemModel* model = new QStandardItemModel(ui->listView);
+
+    // On itère sur les tâches
+    for (const Tache& tache : *taches)
+    {
+        // Creation d'un QStandardItem avec le numéro de la tâche
+        QStandardItem* item = new QStandardItem(tache.getNum());
+
+        item->setData("Task " + QString::number(tache.getNum()), Qt::DisplayRole);
+
+        // Ajout de l'item dans le model
+        model->appendRow(item);
+    }
+
+    model->sort(0, Qt::AscendingOrder); // On tri la liste
+    ui->listView->setModel(model);
+}
+

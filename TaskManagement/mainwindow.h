@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "tache.h"
 #include "tachecomposite.h"
+#include <QModelIndexList>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -21,6 +22,8 @@ public:
 
 private slots:
     void on_actionSauvegarder_triggered();
+
+    void update_listView();
 
 private:
     Ui::MainWindow *ui;
