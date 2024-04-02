@@ -8,6 +8,17 @@ TacheComposite::TacheComposite(int id, double num, QString nom, int duree, doubl
     composants_ = composants;
 }
 
+TacheComposite::TacheComposite(Tache *t, QList<Tache> composants)
+{
+    id_ = t->getId();
+    nom_ = t->getNom();
+    duree_ = t->getDuree();
+    completion_ = t->getDuree();
+    suivantes_ = t->getSuivantes();
+    precedentes_ = t->getPrecedentes();
+    composants_ = composants;
+}
+
 
 int TacheComposite::getDuree() const
 {

@@ -22,7 +22,6 @@ public:
 
 private slots:
     void on_actionSauvegarder_triggered();
-
     void update_listView();
 
 private:
@@ -32,6 +31,7 @@ private:
     bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);
     Tache findTache(int id) const;
+    void AddTask(const QString nom, int duree, const QString dependances);
     const TacheComposite* findTacheComposite(int id) const;
 
     void saveFile(const QString & filename);

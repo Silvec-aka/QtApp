@@ -8,6 +8,16 @@ TacheTerminale::TacheTerminale(int id, double num, QString nom, int duree, doubl
     if (!suivantes_.isEmpty()) throw std::exception("Cette tâche n'est pas terminale.");
 }
 
+TacheTerminale::TacheTerminale(Tache *t)
+{
+    id_ = t->getId();
+    nom_ = t->getNom();
+    duree_ = t->getDuree();
+    completion_ = t->getDuree();
+    suivantes_ = t->getSuivantes();
+    precedentes_ = t->getPrecedentes();
+}
+
 
 
 int TacheTerminale::getDuree() const
