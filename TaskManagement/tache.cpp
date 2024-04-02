@@ -204,3 +204,16 @@ QJsonObject Tache::toJson() const
 
     return json;*/
 }
+
+QList<QStandardItem*> Tache::addToTree() const
+{
+    QStandardItem* nom = new QStandardItem(nom_);
+    nom->setFlags(Qt::ItemSelectable); // TODO créer l'evt
+    QStandardItem* duree = new QStandardItem(duree_);
+    QStandardItem* num = new QStandardItem(num_);
+
+    QList<QStandardItem*> childCol;
+    childCol << num << nom << duree;
+
+    return childCol;
+}

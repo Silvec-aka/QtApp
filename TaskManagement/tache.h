@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QStandardItem>
 
 class Tache
 {
@@ -43,6 +44,7 @@ class Tache
         Tache retirerPrecedente(int id);
 
         virtual QJsonObject toJson() const;
+        QList<QStandardItem*> addToTree() const;
 
 
     signals:

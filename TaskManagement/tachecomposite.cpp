@@ -10,6 +10,8 @@ TacheComposite::TacheComposite(int id, double num, QString nom, int duree, doubl
 
 TacheComposite::TacheComposite(Tache *t, QList<Tache> composants)
 {
+    // TODO : pb car get Duree renvoie la durée totale et pas juste celle de la tâche
+
     id_ = t->getId();
     nom_ = t->getNom();
     duree_ = t->getDuree();

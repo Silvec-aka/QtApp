@@ -259,3 +259,15 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
 
     // Regarder si c'est une tâche composite ou terminale
 }
+
+
+void MainWindow::CreateTree()
+{
+    QList<QStandardItem*> row;
+    for (const Tache& tache : *taches)
+    {
+        row = tache.addToTree();
+        // TODO créer le tree quelque part (voir avec RSQD si pb)
+        tree->appendRow(row);
+    }
+}
