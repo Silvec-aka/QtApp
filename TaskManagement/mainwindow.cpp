@@ -133,7 +133,6 @@ bool MainWindow::loadFromJson(const QString & filename)
             }
             precedentesMap->insert(id, precedentesId);
 
-            Tache* t;
             // Gestion du cas où l'on à une classe composite
             if (taskObject.contains("composants"))
             {
@@ -146,15 +145,16 @@ bool MainWindow::loadFromJson(const QString & filename)
                 }
                 composantsMap->insert(id, composantsId);
 
-                TacheComposite t(id, num, nom, duree, completion);
+                TacheComposite* t = new TacheComposite(id, num, nom, duree, completion);
+                // On ajoute la atche à notre liste de tâche
+                taches->append(t);
             }
             else
             {
-                TacheTerminale t(id, num, nom, duree, completion);
+                TacheTerminale* t = new TacheTerminale(id, num, nom, duree, completion);
+                // On ajoute la atche à notre liste de tâche
+                taches->append(t);
             }
-
-            // On ajoute la atche à notre liste de tâche
-            taches->append(t);
         }
     }
 
@@ -175,16 +175,12 @@ bool MainWindow::loadFromJson(const QString & filename)
         Tache* t = findTache(keys[i]);
         values = suivantesMap->value(keys[i]);
 
-        //qDebug() << "fooor";
-
         for (int j=0; i < values.count(); j++)
         {
             // On lui ajoute sa suivante
             t->ajouterSuivante(*findTache(values[j]));
         }
     }
-
-    qDebug() << "2";
 
     // Precedentes
     keys = precedentesMap->keys();
@@ -216,8 +212,6 @@ bool MainWindow::loadFromJson(const QString & filename)
         }
     }
 
-    qDebug() << "10";
-
     return true;
 }
 
@@ -243,7 +237,7 @@ TacheComposite* MainWindow::findTacheComposite(int id) const
 
 int MainWindow::GenerateId()
 {
-    return id_ + 1;
+    return id_ += 1;
 }
 
 void MainWindow::AddTask(const QString nom, int duree, const QString dependances)
