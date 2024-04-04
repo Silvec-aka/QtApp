@@ -16,11 +16,6 @@ addTasks::~addTasks()
 
 void addTasks::fillAllTaks(QList<QString> L)
 {
-    // Q_FOREACH(const QString s , L)
-    // {
-    //     allTasks.append(s);
-    // }
-
     Q_FOREACH(const QString s , L)
     {
         ui->dependanceBox->addItem(s);
@@ -42,12 +37,23 @@ QString addTasks::getDependanceString()
     return dependanceString;
 }
 
+bool addTasks::getIsTerminal() const
+{
+    return isTerminal;
+}
+
+bool addTasks::getIsPrincipale() const
+{
+    return isPrincipale;
+}
 
 void addTasks::on_buttonBox_accepted()
 {
     nameString = ui->nameString->text();
     durationInt = ui->durationInt->value();
     dependanceString = ui->dependanceBox->currentText();
+    isTerminal = ui->isTerminal->isChecked();
+    isPrincipale = ui->isPrincipale->isChecked();
     accept();
 }
 

@@ -1,6 +1,6 @@
 #include "tachecomposite.h"
 
-TacheComposite::TacheComposite(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes, QList<Tache> composants) :
+TacheComposite::TacheComposite(int id, QString num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes, QList<Tache> composants) :
     Tache(id, num, nom, duree, completion, suivantes, precedentes)
 {
     composants_ = composants;
@@ -51,7 +51,6 @@ double TacheComposite::getCompletion() const
 
     return completion / nbTask;
 }
-
 
 
 void TacheComposite::setDuree(int duree)

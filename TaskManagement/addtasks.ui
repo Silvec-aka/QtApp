@@ -78,9 +78,16 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="isPrincipale">
         <property name="text">
-         <string>Composite</string>
+         <string>Branche principale</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="isTerminal">
+        <property name="text">
+         <string>Terminale</string>
         </property>
        </widget>
       </item>

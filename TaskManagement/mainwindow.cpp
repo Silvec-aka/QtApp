@@ -110,7 +110,7 @@ bool MainWindow::loadFromJson(const QString & filename)
             QJsonObject taskObject = taskValue.toObject();
             int id = taskObject["id"].toInt();
             if (id > id_) id_ = id; // We set the id to start at the higher id in the JSON
-            double num = taskObject["num"].toDouble();
+            QString num = taskObject["num"].toString();
             QString nom = taskObject["nom"].toString();
             int duree = taskObject["duree"].toInt();
             double completion = taskObject["completion"].toDouble();
@@ -223,6 +223,14 @@ Tache* MainWindow::findTache(int id) const
     }
 }
 
+Tache* MainWindow::findTacheByName(QString name) const
+{
+    for (Tache* t : *taches)
+    {
+        if (t->getNom() == name) return t;
+    }
+}
+
 TacheComposite* MainWindow::findTacheComposite(int id) const
 {
     for (Tache* t : *taches)
@@ -240,26 +248,67 @@ int MainWindow::GenerateId()
     return id_ += 1;
 }
 
-void MainWindow::AddTask(const QString nom, int duree, const QString dependances)
+void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dependance, bool isPrincipale)
 {
-    // TODO
+    Tache* t = new TacheTerminale(GenerateId(), "0", nom, duree, 0.0);
+    // if (dependance != "")
+    // {
+    //     Tache* tacheDependance = findTacheByName(dependance);
 
-    Tache* t = new Tache(GenerateId(), 0.0, nom, duree, 0.0);
-    qDebug() << "AddTask 1" << t->getNom();
+    //     QString numDep = tacheDependance->getNum();
+
+    //     if (isPrincipale)
+    //     {
+    //         int newNum = numDep.toInt() +1 ;
+    //         t->setNum(QString::number(newNum));
+
+    //         t->ajouterPrecedente(tacheDependance);
+    //         tacheDependance->ajouterSuivante(*t);
+    //     }
+    //     else
+    //     {
+
+    //         t->ajouterPrecedente(tacheDependance);
+    //     }
+
+    //     if (num - round(num) == 0.0 )
+    //     {
+    //         t->ajouterPrecedente(tacheDependance);
+    //     }
+
+    //     // t->setNum();
+    // }
+    // else
+    // {
+    //     t->setNum("1");
+    // }
+    
     taches->append(t);
-    for (const Tache &t : *taches)
-    {
-        qDebug() << "AddTask 2" << t.getNom();
-        qDebug() << t.getNum();
-    }
+}
 
-    qDebug() << "AddTask 3";
+void MainWindow::AddTaskComposite(const QString nom, int duree, const QString dependance, bool isPrincipale)
+{
+    Tache* t = new TacheComposite(GenerateId(), "0", nom, duree, 0.0);
+    // if (dependance != "")
+    // {
+    //     Tache* tacheDependance = findTacheByName(dependance);
 
-    // Parser la QString des dépendaces et déterminer si les tâches existent.
-    // Si oui, les ajouter aux tâches précèdentes de t et ajouter t dans les suivantes
-    // des tâches précèdentes
+    //     // t->setNum();
 
-    // Regarder si c'est une tâche composite ou terminale
+    //     double num = t->getNum();
+    //     if (num - round(num) == 0.0 )
+    //     {
+    //         t->ajouterPrecedente(tacheDependance);
+    //     }
+    //     else
+    //     {
+    //         t->ajouterPrecedente(tacheDependance);
+    //         tacheDependance->ajouterSuivante(*t);
+    //     }
+    // }
+
+    
+    taches->append(t);
 }
 
 
@@ -337,8 +386,18 @@ void MainWindow::on_actionAjouter_triggered()
     nameString = dialogBox->getNameString();
     durationInt = dialogBox->getDurationInt();
     dependanceString = dialogBox->getDependanceString();
+    isTerminal = dialogBox->getIsTerminal();
+    isPrincipale = dialogBox->getIsPrincipale();
 
-    AddTask(nameString, durationInt, dependanceString);
+    if (isTerminal)
+    {
+        AddTaskTerminal(nameString, durationInt, dependanceString, isPrincipale);
+    }
+    else
+    {
+        AddTaskComposite(nameString, durationInt, dependanceString, isPrincipale);
+    }
+
     UpdateTreeView();
     UpdateTableView();
 }

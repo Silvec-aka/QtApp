@@ -2,7 +2,7 @@
 #include <QJsonArray>
 
 
-TacheTerminale::TacheTerminale(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes) :
+TacheTerminale::TacheTerminale(int id, QString num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes) :
     Tache(id, num, nom, duree, completion, suivantes, precedentes)
 {
 }
@@ -43,7 +43,6 @@ double TacheTerminale::getCompletion() const
 
     return completion / nbTask;
 }
-
 
 
 void TacheTerminale::setDuree(int duree)
