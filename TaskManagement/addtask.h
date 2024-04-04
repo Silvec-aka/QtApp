@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QWidget>
 namespace Ui {
-    class addTask;
+class addTask;
 }
 
 class addTask : public QDialog
@@ -17,9 +17,9 @@ public:
     int getDurationInt();
     QString getDependanceString();
 
-private slots:
-    void on_buttonBox_accepted();
-    void on_buttonBox_rejected();
+    // private slots:
+    //     void on_buttonBox_accepted();
+    //     void on_buttonBox_rejected();
 
 private:
     Ui::addTask *ui;

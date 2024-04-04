@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tacheterminale.h"
-#include "addtask.h"
+#include "addtasks.h"
 
 #include <QMessageBox>
 #include <QJsonArray>
@@ -293,7 +293,7 @@ void MainWindow::UpdateListView()
 
 void MainWindow::on_actionAjouter_triggered()
 {
-    addTask* dialogBox = new addTask();
+    addTasks* dialogBox = new addTasks();
 
     dialogBox->exec();
 
@@ -302,7 +302,7 @@ void MainWindow::on_actionAjouter_triggered()
     durationInt = dialogBox->getDurationInt();
     dependanceString = dialogBox->getDependanceString();
 
-    AddTask(nameString, 0, dependanceString);
+    AddTask(nameString, durationInt, dependanceString);
     UpdateTreeView();
     UpdateListView();
 
