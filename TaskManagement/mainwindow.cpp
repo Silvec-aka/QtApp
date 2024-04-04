@@ -78,6 +78,8 @@ bool MainWindow::writeToJson(const QString & filename)
         file.write(doc.toJson());
         file.close();
     }
+
+    return true;
 }
 
 bool MainWindow::loadFromJson(const QString & filename)
@@ -203,6 +205,7 @@ bool MainWindow::loadFromJson(const QString & filename)
         }
     }
 
+    return true;
 }
 
 Tache MainWindow::findTache(int id) const
@@ -268,24 +271,41 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
 
 void MainWindow::UpdateTreeView()
 {
+    // TODO CLASSER LES TÂCHES
+
+    // Création du modèle
+    QStandardItemModel *model = new QStandardItemModel();
+    model->setColumnCount(1); // 1 colonne : le nom de la tâche
+
+    // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
     for (const Tache& tache : *taches)
     {
         row = tache.addToTree();
-        // TODO créer le tree quelque part (voir avec RSQD si pb)
-        // tree->appendRow(row);
+        model->appendRow(row);
     }
+
+    ui->treeView->setModel(model);
+    ui->treeView->expandAll();
+    ui->treeView->show();
 }
 
 void MainWindow::UpdateListView()
 {
+    // Création du modèle
+    QStandardItemModel *model = new QStandardItemModel();
+    model->setColumnCount(2); // 2 colonnes : num, nom
+
+    // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
     for (const Tache& tache : *taches)
     {
-        row = tache.addToTree();
-        // TODO créer le tree quelque part (voir avec RSQD si pb)
-        // tree->appendRow(row);
+        row = tache.addToList();
+        model->appendRow(row);
     }
+
+    ui->listView->setModel(model);
+    ui->listView->show();
 }
 
 void MainWindow::on_actionAjouter_triggered()

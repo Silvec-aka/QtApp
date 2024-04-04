@@ -208,6 +208,18 @@ QJsonObject Tache::toJson() const
 QList<QStandardItem*> Tache::addToTree() const
 {
     QStandardItem* nom = new QStandardItem(nom_);
+    nom->setFlags(Qt::ItemIsEnabled);
+
+    QList<QStandardItem*> childCol;
+    childCol << nom;
+
+    return childCol;
+}
+
+
+QList<QStandardItem*> Tache::addToList() const
+{
+    QStandardItem* nom = new QStandardItem(nom_);
     nom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     QStandardItem* duree = new QStandardItem(duree_);
     duree->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);

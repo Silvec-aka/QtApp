@@ -45,6 +45,7 @@ class Tache
 
         virtual QJsonObject toJson() const;
         QList<QStandardItem*> addToTree() const;
+        QList<QStandardItem*> addToList() const;
 
 
     signals:
