@@ -106,6 +106,7 @@ bool MainWindow::loadFromJson(const QString & filename)
         {
             QJsonObject taskObject = taskValue.toObject();
             int id = taskObject["id"].toInt();
+            if (id > id_) id_ = id; // We set the id to start at the higher id in the JSON
             double num = taskObject["num"].toDouble();
             QString nom = taskObject["nom"].toString();
             int duree = taskObject["duree"].toInt();
