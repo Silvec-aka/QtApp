@@ -305,26 +305,22 @@ void MainWindow::UpdateTableView()
     model->setHorizontalHeaderLabels(columnLabels);
 
 
-    qDebug() << "Update TableView 1";
-
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
 
     int debug = 0;
     for (const Tache& tache : *taches)
     {
-        qDebug() << "debug TableView " << debug;
         row = tache.addToList();
         model->appendRow(row);
         row.clear();
         debug++;
     }
-    qDebug() << "Update TableView 2";
 
     ui->tableView->setModel(model);
     ui->tableView->show();
 
-    connect(ui->tableView, SIGNAL(&QTableView::clicked), this, SLOT(&MainWindow::onTableViewElementSelected));
+    connect(ui->tableView, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onTableViewElementSelected(const QModelIndex &)));
 }
 
 void MainWindow::on_actionAjouter_triggered()
@@ -339,15 +335,12 @@ void MainWindow::on_actionAjouter_triggered()
     dialogBox->exec();
 
     nameString = dialogBox->getNameString();
-    qDebug() << nameString;
     durationInt = dialogBox->getDurationInt();
     dependanceString = dialogBox->getDependanceString();
 
     AddTask(nameString, durationInt, dependanceString);
     UpdateTreeView();
     UpdateTableView();
-
-    qDebug() << "Update Ajouter";
 }
 
 
@@ -374,6 +367,6 @@ void MainWindow::onTableViewElementSelected(const QModelIndex &index)
     if (index.isValid())
     {
         QVariant data = ui->tableView->model()->data(index);
-        qDebug() << data;
+        qDebug() << data.toString();
     }
 }

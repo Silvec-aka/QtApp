@@ -183,7 +183,7 @@ QList<QStandardItem*> Tache::addToList() const
     nom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QStandardItem* num = new QStandardItem(QString::number(num_));
-    num->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+    num->setFlags(Qt::ItemIsEnabled);
 
     QList<QStandardItem*> childCol;
     childCol << num << nom;
