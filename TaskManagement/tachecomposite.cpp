@@ -12,6 +12,7 @@ TacheComposite::TacheComposite(Tache *t, QList<Tache> composants)
 
     id_ = t->getId();
     nom_ = t->getNom();
+    num_ = t->getNum();
     duree_ = t->getDuree();
     completion_ = t->getDuree();
     suivantes_ = t->getSuivantes();

@@ -250,6 +250,7 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
     for (const Tache &t : *taches)
     {
         qDebug() << "AddTask 2" << t.getNom();
+        qDebug() << t.getNum();
     }
 
     qDebug() << "AddTask 3";

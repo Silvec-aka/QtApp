@@ -17,6 +17,7 @@ Tache::Tache(Tache *tache)
 {
     id_ = tache->id_;
     nom_ = tache->nom_;
+    num_ = tache->num_;
     duree_ = tache->duree_;
     completion_ = tache->completion_;
     suivantes_ = tache->suivantes_;
@@ -203,7 +204,7 @@ QList<QStandardItem*> Tache::addToList() const
     QStandardItem* nom = new QStandardItem(nom_);
     nom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QStandardItem* num = new QStandardItem(num_);
+    QStandardItem* num = new QStandardItem(QString::number(num_));
     num->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QList<QStandardItem*> childCol;
