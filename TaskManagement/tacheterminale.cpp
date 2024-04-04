@@ -5,7 +5,7 @@
 TacheTerminale::TacheTerminale(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes) :
     Tache(id, num, nom, duree, completion, suivantes, precedentes)
 {
-    if (!suivantes_.isEmpty()) throw std::exception("Cette tâche n'est pas terminale.");
+    // if (!suivantes_.isEmpty()) throw std::exception("Cette tâche n'est pas terminale.");
 }
 
 TacheTerminale::TacheTerminale(Tache *t)

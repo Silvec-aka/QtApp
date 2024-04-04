@@ -24,10 +24,15 @@ private slots:
     void on_actionSauvegarder_triggered();
     void update_listView();
 
+    void on_actionAjouter_triggered();
+
 private:
     Ui::MainWindow *ui;
     QList<Tache*> *taches;
 
+    QString nameString;
+    QString durationString;
+    QString dependanceString;
     bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);
     Tache findTache(int id) const;

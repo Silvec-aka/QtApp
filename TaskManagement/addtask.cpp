@@ -8,6 +8,11 @@ addTask::addTask(QWidget *parent)
     ui->setupUi(this);
 }
 
+addTask::~addTask()
+{
+    delete ui;
+}
+
 QString addTask::getNameString()
 {
     return nameString;

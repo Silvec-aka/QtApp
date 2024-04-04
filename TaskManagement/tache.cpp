@@ -68,12 +68,12 @@ void Tache::setNum()
 {
     // TODO
 
-    if(precedentes_.isEmpty()) num_ = 1.0;
-    else if (precedentes_.count() > 1) num_ = precedentes_[0].getNum() + 0.1; // TODO
-    else
-    {
-        num_ = precedentes_[0].getNum() + 1.0;
-    }
+    // if(precedentes_.isEmpty()) num_ = 1.0;
+    // else if (precedentes_.count() > 1) num_ = precedentes_[0].getNum() + 0.1; // TODO
+    // else
+    // {
+    //     num_ = precedentes_[0].getNum() + 1.0;
+    // }
 }
 
 
@@ -131,7 +131,7 @@ Tache Tache::retirerSuivante(int id)
         }
     }
 
-    throw std::exception("Il n'existe pas de tâche suivante correspondante.");
+    // throw std::exception("Il n'existe pas de tâche suivante correspondante.");
 }
 
 
@@ -147,7 +147,7 @@ Tache Tache::retirerPrecedente(int id)
         }
     }
 
-    throw std::exception("Il n'existe pas de tâche suivante correspondante.");
+    // throw std::exception("Il n'existe pas de tâche suivante correspondante.");
 }
 
 QJsonObject Tache::toJson() const

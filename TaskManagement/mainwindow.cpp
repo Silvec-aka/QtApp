@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tacheterminale.h"
+#include "addtask.h"
 
 #include <QMessageBox>
 #include <QJsonArray>
@@ -225,25 +226,25 @@ const TacheComposite* MainWindow::findTacheComposite(int id) const
 
 void MainWindow::update_listView()
 {
-    ui->listView->reset();
+    // ui->listView->reset();
 
-    // Create a new QStandardItemModel for the QListView
-    QStandardItemModel* model = new QStandardItemModel(ui->listView);
+    // // Create a new QStandardItemModel for the QListView
+    // QStandardItemModel* model = new QStandardItemModel(ui->listView);
 
-    // On itère sur les tâches
-    for (const Tache& tache : *taches)
-    {
-        // Creation d'un QStandardItem avec le numéro de la tâche
-        QStandardItem* item = new QStandardItem(tache.getNum());
+    // // On itère sur les tâches
+    // for (const Tache& tache : *taches)
+    // {
+    //     // Creation d'un QStandardItem avec le numéro de la tâche
+    //     QStandardItem* item = new QStandardItem(tache.getNum());
 
-        item->setData("Task " + QString::number(tache.getNum()), Qt::DisplayRole);
+    //     item->setData("Task " + QString::number(tache.getNum()), Qt::DisplayRole);
 
-        // Ajout de l'item dans le model
-        model->appendRow(item);
-    }
+    //     // Ajout de l'item dans le model
+    //     model->appendRow(item);
+    // }
 
-    model->sort(0, Qt::AscendingOrder); // On tri la liste
-    ui->listView->setModel(model);
+    // model->sort(0, Qt::AscendingOrder); // On tri la liste
+    // ui->listView->setModel(model);
 }
 
 void MainWindow::AddTask(const QString nom, int duree, const QString dependances)
@@ -251,7 +252,7 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
     // TODO
 
     // TODO : GenerateID
-    Tache t(GenerateId(), 0.0, nom, duree, 0.0);
+    // Tache t(GenerateId(), 0.0, nom, duree, 0.0);
 
     // Parser la QString des dépendaces et déterminer si les tâches existent.
     // Si oui, les ajouter aux tâches précèdentes de t et ajouter t dans les suivantes
@@ -268,6 +269,19 @@ void MainWindow::CreateTree()
     {
         row = tache.addToTree();
         // TODO créer le tree quelque part (voir avec RSQD si pb)
-        tree->appendRow(row);
+        // tree->appendRow(row);
     }
 }
+
+void MainWindow::on_actionAjouter_triggered()
+{
+    addTask* dialogBox = new addTask();
+
+    dialogBox->exec();
+
+    nameString = dialogBox->getNameString();
+    durationString = dialogBox->getDurationString();
+    dependanceString = dialogBox->getDependanceString();
+
+}
+
