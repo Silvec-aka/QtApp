@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    taches = new QList<Tache*>();
 }
 
 MainWindow::~MainWindow()
@@ -275,7 +276,7 @@ void MainWindow::UpdateTreeView()
 
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
-    model->setColumnCount(1); // 1 colonne : le nom de la tâche
+    model->setColumnCount(2); // 1 colonne : le nom de la tâche
 
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
@@ -294,7 +295,7 @@ void MainWindow::UpdateListView()
 {
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
-    model->setColumnCount(2); // 2 colonnes : num, nom
+    model->setColumnCount(3); // 2 colonnes : num, nom
 
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;

@@ -221,13 +221,11 @@ QList<QStandardItem*> Tache::addToList() const
 {
     QStandardItem* nom = new QStandardItem(nom_);
     nom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-    QStandardItem* duree = new QStandardItem(duree_);
-    duree->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     QStandardItem* num = new QStandardItem(num_);
     num->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QList<QStandardItem*> childCol;
-    childCol << num << nom << duree;
+    childCol << num << nom;
 
     return childCol;
 }
