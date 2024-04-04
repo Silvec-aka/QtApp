@@ -262,7 +262,18 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
 }
 
 
-void MainWindow::CreateTree()
+void MainWindow::UpdateTreeView()
+{
+    QList<QStandardItem*> row;
+    for (const Tache& tache : *taches)
+    {
+        row = tache.addToTree();
+        // TODO créer le tree quelque part (voir avec RSQD si pb)
+        // tree->appendRow(row);
+    }
+}
+
+void MainWindow::UpdateListView()
 {
     QList<QStandardItem*> row;
     for (const Tache& tache : *taches)
