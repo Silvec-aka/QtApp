@@ -221,6 +221,7 @@ Tache* MainWindow::findTache(int id) const
     {
         if (t->getId() == id) return t;
     }
+    return NULL;
 }
 
 Tache* MainWindow::findTacheByName(QString name) const
@@ -229,6 +230,7 @@ Tache* MainWindow::findTacheByName(QString name) const
     {
         if (t->getNom() == name) return t;
     }
+    return NULL;
 }
 
 TacheComposite* MainWindow::findTacheComposite(int id) const
@@ -240,6 +242,7 @@ TacheComposite* MainWindow::findTacheComposite(int id) const
             if (t->getId() == id) return tc;
         }
     }
+    return NULL;
 }
 
 
@@ -315,27 +318,19 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
 void MainWindow::UpdateTreeView()
 {
     // TODO CLASSER LES TÂCHES
-    // TODO SET LE NOM DES COLS
 
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(1); // 1 colonne : le nom de la tâche
 
-    qDebug() << "Update TreeView 1";
-
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
-    // for (const Tache& tache : *taches)
-    // {
-    //     row = tache.addToTree();
-    //     model->appendRow(row);
-    // }
+
     Q_FOREACH(const Tache &t , *taches)
     {
         row = t.addToTree();
         model->appendRow(row);
     }
-    qDebug() << "Update TreeView 2";
 
     ui->treeView->setModel(model);
     ui->treeView->expandAll();
@@ -357,13 +352,11 @@ void MainWindow::UpdateTableView()
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
 
-    int debug = 0;
     for (const Tache& tache : *taches)
     {
         row = tache.addToList();
         model->appendRow(row);
         row.clear();
-        debug++;
     }
 
     ui->tableView->setModel(model);
@@ -422,10 +415,17 @@ void MainWindow::on_actionOuvrir_triggered()
 
 void MainWindow::onTableViewElementSelected(const QModelIndex &index)
 {
-    qDebug() << "jkevcdw";
     if (index.isValid())
     {
         QVariant data = ui->tableView->model()->data(index);
-        qDebug() << data.toString();
+
+        Tache* t = findTacheByName(data.toString());
+        if (t==NULL) return;
+
+        QString text = "<b>Tache n°" + t->getNum() +
+                       "</b>" + "<br><br>Nom : " + t->getNom() +
+                       "<br>Durée : " + QString::number(t->getDuree()) +
+                       "<br>Completion : " + QString::number(t->getCompletion());
+        ui->textBrowser->setText(text);
     }
 }
