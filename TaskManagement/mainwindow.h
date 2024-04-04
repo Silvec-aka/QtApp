@@ -32,7 +32,7 @@ private:
     int id_ = 0;
 
     QString nameString;
-    QString durationString;
+    int durationInt;
     QString dependanceString;
     bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);

@@ -14,7 +14,7 @@ public:
     ~addTask();
 
     QString getNameString();
-    QString getDurationString();
+    int getDurationInt();
     QString getDependanceString();
 
 private slots:
@@ -24,7 +24,7 @@ private slots:
 private:
     Ui::addTask *ui;
     QString nameString;
-    QString durationString;
+    int durationInt;
     QString dependanceString;
 };
 

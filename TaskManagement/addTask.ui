@@ -47,7 +47,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QTextEdit" name="durationString"/>
+       <widget class="QSpinBox" name="durationInt"/>
       </item>
      </layout>
     </widget>

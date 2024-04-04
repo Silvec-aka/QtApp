@@ -315,8 +315,12 @@ void MainWindow::on_actionAjouter_triggered()
     dialogBox->exec();
 
     nameString = dialogBox->getNameString();
-    durationString = dialogBox->getDurationString();
+    durationInt = dialogBox->getDurationInt();
     dependanceString = dialogBox->getDependanceString();
+
+    AddTask(nameString, 0, dependanceString);
+    UpdateTreeView();
+    UpdateListView();
 
 }
 

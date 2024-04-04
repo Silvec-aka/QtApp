@@ -18,9 +18,9 @@ QString addTask::getNameString()
     return nameString;
 }
 
-QString addTask::getDurationString()
+int addTask::getDurationInt()
 {
-    return durationString;
+    return durationInt;
 }
 
 QString addTask::getDependanceString()
@@ -31,7 +31,7 @@ QString addTask::getDependanceString()
 void addTask::on_buttonBox_accepted()
 {
     nameString = ui->nameString->document()->toRawText();;
-    durationString = ui->durationString->document()->toRawText();
+    durationInt = ui->durationInt->value();
     dependanceString = ui->dependanceString->document()->toRawText();
     accept();
 }
