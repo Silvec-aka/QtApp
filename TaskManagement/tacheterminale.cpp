@@ -27,10 +27,7 @@ int TacheTerminale::getDuree() const
     return duree_;
 }
 
-bool TacheTerminale::isComposite() const
-{
-    return false;
-}
+
 
 
 double TacheTerminale::getCompletion() const

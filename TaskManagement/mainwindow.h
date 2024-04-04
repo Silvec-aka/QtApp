@@ -34,6 +34,8 @@ private:
     int id_ = 0;
     Tache* descriptionTask_ = NULL; // tâche dont la description est affichée
 
+    QList<int>* idsComposite;
+
     QString nameString;
     int durationInt;
     QString dependanceString;

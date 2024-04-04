@@ -14,7 +14,6 @@ class TacheComposite : public Tache
 
         int getDuree() const override;
         double getCompletion() const override;
-        bool isComposite() const override;
 
         void setDuree(int duree);
         void setCompletion(double completion);

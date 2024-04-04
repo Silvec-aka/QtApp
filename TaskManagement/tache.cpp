@@ -146,6 +146,8 @@ Tache Tache::retirerPrecedente(int id)
     }
 }
 
+
+
 QJsonObject Tache::toJson() const
 {
     QJsonObject tObj;

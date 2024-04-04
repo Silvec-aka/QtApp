@@ -35,10 +35,6 @@ int TacheComposite::getDuree() const
     return duree;
 }
 
-bool TacheComposite::isComposite() const
-{
-    return true;
-}
 
 double TacheComposite::getCompletion() const
 {

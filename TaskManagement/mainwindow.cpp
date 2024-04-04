@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     taches = new QList<Tache*>();
+
+    idsComposite = new QList<int>();
 }
 
 MainWindow::~MainWindow()
@@ -290,6 +292,8 @@ void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dep
 void MainWindow::AddTaskComposite(const QString nom, int duree, const QString dependance, bool isPrincipale)
 {
     Tache* t = new TacheComposite(GenerateId(), "0", nom, duree, 0.0);
+    idsComposite->append(t->getId());
+
     if (dependance != "")
     {
         Tache* tacheDependance = findTacheByName(dependance);
@@ -378,9 +382,8 @@ void MainWindow::on_actionAjouter_triggered()
     QList<QString> l;
     Q_FOREACH(const Tache &t , *taches)
     {
-        if (t.isComposite() || (!(t.getNum().contains(".")) && t.getSuivantes().length()==0))
+        if (idsComposite->contains(t.getId()) || (!(t.getNum().contains(".")) && t.getSuivantes().length()==0))
         {
-            qDebug() << t.isComposite();
             l.append(t.getNom());
         }
     }
