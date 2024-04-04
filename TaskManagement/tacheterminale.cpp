@@ -5,6 +5,7 @@
 TacheTerminale::TacheTerminale(int id, QString num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes) :
     Tache(id, num, nom, duree, completion, suivantes, precedentes)
 {
+    isComposite = false;
 }
 
 TacheTerminale::TacheTerminale(Tache *t)
@@ -18,6 +19,7 @@ TacheTerminale::TacheTerminale(Tache *t)
     completion_ = t->getDuree();
     suivantes_ = t->getSuivantes();
     precedentes_ = t->getPrecedentes();
+    isComposite = false;
 }
 
 

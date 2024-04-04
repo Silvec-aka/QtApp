@@ -26,6 +26,7 @@ class Tache
         virtual double getCompletion() const;
 
         int getId() const;
+        bool isComposite;
 
         QString getNum() const;
         void setNum(QString num);

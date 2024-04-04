@@ -21,6 +21,8 @@ class TacheComposite : public Tache
         void ajouterComposant(const Tache t);
         Tache supprimerComposant(int id);
 
+        QList<Tache> getComposante() const;
+
         QJsonObject toJson() const override;
 };
 

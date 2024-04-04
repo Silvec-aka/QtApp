@@ -254,37 +254,35 @@ int MainWindow::GenerateId()
 void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dependance, bool isPrincipale)
 {
     Tache* t = new TacheTerminale(GenerateId(), "0", nom, duree, 0.0);
-    // if (dependance != "")
-    // {
-    //     Tache* tacheDependance = findTacheByName(dependance);
+    if (dependance != "")
+    {
+        Tache* tacheDependance = findTacheByName(dependance);
+        QString numDep = tacheDependance->getNum();
 
-    //     QString numDep = tacheDependance->getNum();
+        if (isPrincipale)
+        {
+            int newNum = numDep.toInt() +1 ;
+            t->setNum(QString::number(newNum));
 
-    //     if (isPrincipale)
-    //     {
-    //         int newNum = numDep.toInt() +1 ;
-    //         t->setNum(QString::number(newNum));
+            t->ajouterPrecedente(tacheDependance);
+            tacheDependance->ajouterSuivante(*t);
+        }
+        else
+        {
+            TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
 
-    //         t->ajouterPrecedente(tacheDependance);
-    //         tacheDependance->ajouterSuivante(*t);
-    //     }
-    //     else
-    //     {
+            t->ajouterPrecedente(tacheDepComp);
+            tacheDepComp->ajouterComposant(*t);
 
-    //         t->ajouterPrecedente(tacheDependance);
-    //     }
+            t->setNum(numDep + "." + QString::number(tacheDepComp->getComposante().length()) );
+        }
 
-    //     if (num - round(num) == 0.0 )
-    //     {
-    //         t->ajouterPrecedente(tacheDependance);
-    //     }
-
-    //     // t->setNum();
-    // }
-    // else
-    // {
-    //     t->setNum("1");
-    // }
+        // t->setNum();
+    }
+    else
+    {
+        t->setNum("1");
+    }
     
     taches->append(t);
 }
@@ -292,25 +290,34 @@ void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dep
 void MainWindow::AddTaskComposite(const QString nom, int duree, const QString dependance, bool isPrincipale)
 {
     Tache* t = new TacheComposite(GenerateId(), "0", nom, duree, 0.0);
-    // if (dependance != "")
-    // {
-    //     Tache* tacheDependance = findTacheByName(dependance);
+    if (dependance != "")
+    {
+        Tache* tacheDependance = findTacheByName(dependance);
+        QString numDep = tacheDependance->getNum();
 
-    //     // t->setNum();
+        if (isPrincipale)
+        {
+            int newNum = numDep.toInt() +1 ;
+            t->setNum(QString::number(newNum));
 
-    //     double num = t->getNum();
-    //     if (num - round(num) == 0.0 )
-    //     {
-    //         t->ajouterPrecedente(tacheDependance);
-    //     }
-    //     else
-    //     {
-    //         t->ajouterPrecedente(tacheDependance);
-    //         tacheDependance->ajouterSuivante(*t);
-    //     }
-    // }
+            t->ajouterPrecedente(tacheDependance);
+            tacheDependance->ajouterSuivante(*t);
+        }
+        else
+        {
+            TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
 
-    
+            t->ajouterPrecedente(tacheDepComp);
+            tacheDepComp->ajouterComposant(*t);
+
+            t->setNum(numDep + "." + QString::number(tacheDepComp->getComposante().length()) );
+        }
+    }
+    else
+    {
+        t->setNum("1");
+    }
+
     taches->append(t);
 }
 
@@ -371,8 +378,13 @@ void MainWindow::on_actionAjouter_triggered()
     QList<QString> l;
     Q_FOREACH(const Tache &t , *taches)
     {
-        l.append(t.getNom());
+        if (t.isComposite || (!(t.getNum().contains(".")) && t.getSuivantes().length()==0))
+        {
+            qDebug() << t.isComposite;
+            l.append(t.getNom());
+        }
     }
+
     dialogBox->fillAllTaks(l);
     dialogBox->exec();
 

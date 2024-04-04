@@ -4,6 +4,7 @@ TacheComposite::TacheComposite(int id, QString num, QString nom, int duree, doub
     Tache(id, num, nom, duree, completion, suivantes, precedentes)
 {
     composants_ = composants;
+    isComposite = true;
 }
 
 TacheComposite::TacheComposite(Tache *t, QList<Tache> composants)
@@ -18,6 +19,7 @@ TacheComposite::TacheComposite(Tache *t, QList<Tache> composants)
     suivantes_ = t->getSuivantes();
     precedentes_ = t->getPrecedentes();
     composants_ = composants;
+    isComposite = true;
 }
 
 
@@ -52,6 +54,10 @@ double TacheComposite::getCompletion() const
     return completion / nbTask;
 }
 
+QList<Tache> TacheComposite::getComposante() const
+{
+    return composants_;
+}
 
 void TacheComposite::setDuree(int duree)
 {
