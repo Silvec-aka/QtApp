@@ -298,13 +298,13 @@ void MainWindow::UpdateTreeView()
     ui->treeView->show();
 }
 
-void MainWindow::UpdateListView()
+void MainWindow::UpdateTableView()
 {
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(2); // 2 colonnes : num, nom
 
-    qDebug() << "Update ListView 1";
+    qDebug() << "Update TableView 1";
 
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
@@ -312,16 +312,16 @@ void MainWindow::UpdateListView()
     int debug = 0;
     for (const Tache& tache : *taches)
     {
-        qDebug() << "debug ListView " << debug;
+        qDebug() << "debug TableView " << debug;
         row = tache.addToList();
         model->appendRow(row);
         row.clear();
         debug++;
     }
-    qDebug() << "Update ListView 2";
+    qDebug() << "Update TableView 2";
 
-    ui->listView->setModel(model);
-    ui->listView->show();
+    ui->tableView->setModel(model);
+    ui->tableView->show();
 }
 
 void MainWindow::on_actionAjouter_triggered()
@@ -337,7 +337,7 @@ void MainWindow::on_actionAjouter_triggered()
 
     AddTask(nameString, durationInt, dependanceString);
     UpdateTreeView();
-    UpdateListView();
+    UpdateTableView();
 
     qDebug() << "Update Ajouter";
 }
@@ -357,6 +357,6 @@ void MainWindow::on_actionOuvrir_triggered()
     }
 
     UpdateTreeView();
-    UpdateListView();
+    UpdateTableView();
 }
 

@@ -39,7 +39,7 @@ private:
     void AddTask(const QString nom, int duree, const QString dependances);
     TacheComposite* findTacheComposite(int id) const;
     void UpdateTreeView();
-    void UpdateListView();
+    void UpdateTableView();
 
     void saveFile(const QString & filename);
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1238</width>
-    <height>597</height>
+    <width>1006</width>
+    <height>546</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QListView" name="listView"/>
+        <widget class="QTableView" name="tableView"/>
        </item>
        <item>
         <widget class="QScrollBar" name="verticalScrollBar">
@@ -47,7 +47,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1238</width>
+     <width>1006</width>
      <height>26</height>
     </rect>
    </property>
