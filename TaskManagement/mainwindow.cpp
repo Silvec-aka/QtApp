@@ -324,7 +324,12 @@ void MainWindow::UpdateTableView()
 void MainWindow::on_actionAjouter_triggered()
 {
     addTasks* dialogBox = new addTasks();
-
+    QList<QString> l;
+    Q_FOREACH(const Tache &t , *taches)
+    {
+        l.append(t.getNom());
+    }
+    dialogBox->fillAllTaks(l);
     dialogBox->exec();
 
     nameString = dialogBox->getNameString();
