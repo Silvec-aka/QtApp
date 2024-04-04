@@ -38,7 +38,132 @@
      <widget class="QTreeView" name="treeView"/>
     </item>
     <item>
-     <widget class="QTextBrowser" name="textBrowser"/>
+     <widget class="QGroupBox" name="Description">
+      <property name="title">
+       <string>Description</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="DescriptionLabel">
+         <property name="text">
+          <string>Tâche n°</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Nom : </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="nameString"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_5">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Durée :</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="time"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_6">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Complétion : </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QDoubleSpinBox" name="completion"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_4">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QLabel" name="taskType">
+            <property name="text">
+             <string>Type de tâche :</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_7">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QLabel" name="precedenteName">
+            <property name="text">
+             <string>Précédente :</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="title">
+          <string/>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QLabel" name="suivanteName">
+            <property name="text">
+             <string>Suivante :</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton">
+         <property name="text">
+          <string>Appliquer</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -55,7 +180,6 @@
     <property name="title">
      <string>Fichier</string>
     </property>
-    <addaction name="actionNouveau"/>
     <addaction name="actionOuvrir"/>
     <addaction name="actionSauvegarder"/>
    </widget>
@@ -65,7 +189,6 @@
     </property>
     <addaction name="actionAjouter"/>
     <addaction name="actionSupprimer"/>
-    <addaction name="actionModifier"/>
     <addaction name="separator"/>
     <addaction name="actionRefaire"/>
     <addaction name="actionDefaire"/>
@@ -127,6 +250,9 @@
    </property>
   </action>
   <action name="actionModifier">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Modifier</string>
    </property>
@@ -171,38 +297,6 @@
     <hint type="destinationlabel">
      <x>618</x>
      <y>298</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionDefaire</sender>
-   <signal>triggered()</signal>
-   <receiver>textBrowser</receiver>
-   <slot>undo()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1026</x>
-     <y>313</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionRefaire</sender>
-   <signal>triggered()</signal>
-   <receiver>textBrowser</receiver>
-   <slot>redo()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1026</x>
-     <y>313</y>
     </hint>
    </hints>
   </connection>

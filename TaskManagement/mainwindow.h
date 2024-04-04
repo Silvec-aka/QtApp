@@ -26,10 +26,13 @@ private slots:
     void on_actionOuvrir_triggered();
     void onTableViewElementSelected(const QModelIndex &index);
 
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QList<Tache*> *taches;
     int id_ = 0;
+    Tache* descriptionTask_ = NULL; // tâche dont la description est affichée
 
     QString nameString;
     int durationInt;

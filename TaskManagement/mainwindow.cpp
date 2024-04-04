@@ -422,10 +422,48 @@ void MainWindow::onTableViewElementSelected(const QModelIndex &index)
         Tache* t = findTacheByName(data.toString());
         if (t==NULL) return;
 
-        QString text = "<b>Tache n°" + t->getNum() +
-                       "</b>" + "<br><br>Nom : " + t->getNom() +
-                       "<br>Durée : " + QString::number(t->getDuree()) +
-                       "<br>Completion : " + QString::number(t->getCompletion());
-        ui->textBrowser->setText(text);
+        ui->DescriptionLabel->setText("<center><b>Tache n°" + t->getNum() + "</b></center>");
+        ui->nameString->setText(t->getNom());
+        ui->time->setValue(t->getDuree());
+        ui->completion->setValue(t->getCompletion());
+        //QString type;
+        //if (t->getTerminale()) type = "tâche terminale";
+        //else type = "tâche composite";
+        //ui->taskType->setText("Type : " + type)
+
+        // TODO TYPE DE TACHE
+        if (!t->getPrecedentes().empty())
+        {
+            ui->precedenteName->setText("Précédente : " + t->getPrecedentes()[0].getNom());
+        }
+        else
+        {
+            ui->precedenteName->setText("Précédente : / ");
+        }
+
+        if (!t->getPrecedentes().empty())
+        {
+            ui->suivanteName->setText("Suivante : " + t->getPrecedentes()[0].getNom());
+        }
+        else
+        {
+            ui->precedenteName->setText("Suivante : / ");
+        }
+
+        descriptionTask_ = t;
     }
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString newName = ui->nameString->text();
+    int newDuree = ui->time->value();
+    double newCompletion = ui->completion->value();
+
+    descriptionTask_->SetNom(newName);
+    descriptionTask_->setDuree(newDuree);
+    descriptionTask_->setCompletion(newCompletion);
+
+    UpdateTableView();
+    UpdateTableView();
 }

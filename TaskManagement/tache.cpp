@@ -85,6 +85,15 @@ void Tache::SetNom(QString nom)
     nom_ = nom;
 }
 
+void Tache::setDuree(int duree)
+{
+    duree_ = duree;
+}
+
+void Tache::setCompletion(double completion)
+{
+    completion_ = completion;
+}
 
 QList<Tache> Tache::getSuivantes() const
 {

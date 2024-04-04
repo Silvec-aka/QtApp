@@ -33,6 +33,10 @@ class Tache
         QString getNom() const;
         void SetNom(QString nom) ;
 
+        void setDuree(int duree);
+
+        void setCompletion(double completion);
+
         QList<Tache> getSuivantes() const;
         QList<Tache> getPrecedentes() const;
 
