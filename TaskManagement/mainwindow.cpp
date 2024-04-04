@@ -247,12 +247,16 @@ void MainWindow::update_listView()
     // ui->listView->setModel(model);
 }
 
+int MainWindow::GenerateId()
+{
+    return id_ + 1;
+}
+
 void MainWindow::AddTask(const QString nom, int duree, const QString dependances)
 {
     // TODO
 
-    // TODO : GenerateID
-    // Tache t(GenerateId(), 0.0, nom, duree, 0.0);
+    Tache t(GenerateId(), 0.0, nom, duree, 0.0);
 
     // Parser la QString des dépendaces et déterminer si les tâches existent.
     // Si oui, les ajouter aux tâches précèdentes de t et ajouter t dans les suivantes

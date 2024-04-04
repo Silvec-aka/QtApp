@@ -29,6 +29,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QList<Tache*> *taches;
+    int id_ = 0;
 
     QString nameString;
     QString durationString;
@@ -41,5 +42,7 @@ private:
     void CreateTree();
 
     void saveFile(const QString & filename);
+
+    int GenerateId();
 };
 #endif // MAINWINDOW_H
