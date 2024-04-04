@@ -6,11 +6,25 @@ addTasks::addTasks(QWidget *parent)
     , ui(new Ui::addTasks)
 {
     ui->setupUi(this);
+    // ui->dependanceBox->addItem("text");
 }
 
 addTasks::~addTasks()
 {
     delete ui;
+}
+
+void addTasks::fillAllTaks(QList<QString> L)
+{
+    // Q_FOREACH(const QString s , L)
+    // {
+    //     allTasks.append(s);
+    // }
+
+    Q_FOREACH(const QString s , L)
+    {
+        ui->dependanceBox->addItem(s);
+    }
 }
 
 QString addTasks::getNameString()
@@ -33,7 +47,7 @@ void addTasks::on_buttonBox_accepted()
 {
     nameString = ui->nameString->text();
     durationInt = ui->durationInt->value();
-    dependanceString = ui->dependanceString->text();
+    dependanceString = ui->dependanceBox->currentText();
     accept();
 }
 

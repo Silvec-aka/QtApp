@@ -61,12 +61,12 @@
       <item>
        <widget class="QLabel" name="label_3">
         <property name="text">
-         <string>Dépendances : </string>
+         <string>Ajouter une dépendance :</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="dependanceString"/>
+       <widget class="QComboBox" name="dependanceBox"/>
       </item>
      </layout>
     </widget>

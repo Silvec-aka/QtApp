@@ -18,6 +18,7 @@ public:
     QString getNameString();
     int getDurationInt();
     QString getDependanceString();
+    void fillAllTaks(QList<QString>);
 
 private slots:
     void on_buttonBox_accepted();
@@ -29,6 +30,8 @@ private:
     QString nameString;
     int durationInt;
     QString dependanceString;
+
+    QList<QString> allTasks;
 };
 
 #endif // ADDTASKS_H
