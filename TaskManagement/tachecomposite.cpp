@@ -3,8 +3,6 @@
 TacheComposite::TacheComposite(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes, QList<Tache> composants) :
     Tache(id, num, nom, duree, completion, suivantes, precedentes)
 {
-    // if (suivantes_.isEmpty()) throw std::exception("Cette tâche est terminale et non composite.");
-
     composants_ = composants;
 }
 
@@ -82,8 +80,6 @@ Tache TacheComposite::supprimerComposant(int id)
             return t;
         }
     }
-
-    // throw std::exception("Il n'y a pas de tâche correspondante");
 }
 
 QJsonObject TacheComposite::toJson() const

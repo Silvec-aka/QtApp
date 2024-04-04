@@ -240,8 +240,14 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
     // TODO
 
     Tache t(GenerateId(), 0.0, nom, duree, 0.0);
-
+    qDebug() << "AddTask 1" << t.getNom();
     taches->append(&t);
+    for (const Tache &t : *taches)
+    {
+        qDebug() << "AddTask 2" << t.getNom();
+    }
+
+    qDebug() << "AddTask 3";
 
     // Parser la QString des dépendaces et déterminer si les tâches existent.
     // Si oui, les ajouter aux tâches précèdentes de t et ajouter t dans les suivantes
@@ -260,6 +266,8 @@ void MainWindow::UpdateTreeView()
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(2); // 1 colonne : le nom de la tâche
 
+    qDebug() << "Update TreeView 1";
+
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
     for (const Tache& tache : *taches)
@@ -267,6 +275,7 @@ void MainWindow::UpdateTreeView()
         row = tache.addToTree();
         model->appendRow(row);
     }
+    qDebug() << "Update TreeView 2";
 
     ui->treeView->setModel(model);
     ui->treeView->expandAll();
@@ -279,13 +288,21 @@ void MainWindow::UpdateListView()
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(2); // 2 colonnes : num, nom
 
+    qDebug() << "Update ListView 1";
+
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
+
+    int debug = 0;
     for (const Tache& tache : *taches)
     {
+        qDebug() << "debug ListView " << debug;
         row = tache.addToList();
         model->appendRow(row);
+        row.clear();
+        debug++;
     }
+    qDebug() << "Update ListView 2";
 
     ui->listView->setModel(model);
     ui->listView->show();
@@ -306,5 +323,6 @@ void MainWindow::on_actionAjouter_triggered()
     UpdateTreeView();
     UpdateListView();
 
+    qDebug() << "Update Ajouter";
 }
 
