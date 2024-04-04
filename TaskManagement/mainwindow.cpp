@@ -378,9 +378,9 @@ void MainWindow::on_actionAjouter_triggered()
     QList<QString> l;
     Q_FOREACH(const Tache &t , *taches)
     {
-        if (t.isComposite || (!(t.getNum().contains(".")) && t.getSuivantes().length()==0))
+        if (t.isComposite() || (!(t.getNum().contains(".")) && t.getSuivantes().length()==0))
         {
-            qDebug() << t.isComposite;
+            qDebug() << t.isComposite();
             l.append(t.getNom());
         }
     }
