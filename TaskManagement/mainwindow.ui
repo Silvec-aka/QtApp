@@ -211,7 +211,6 @@
    </attribute>
    <addaction name="actionAjouter"/>
    <addaction name="actionSupprimer"/>
-   <addaction name="actionModifier"/>
    <addaction name="separator"/>
    <addaction name="actionQuitter"/>
   </widget>
@@ -247,14 +246,6 @@
   <action name="actionSupprimer">
    <property name="text">
     <string>Supprimer</string>
-   </property>
-  </action>
-  <action name="actionModifier">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Modifier</string>
    </property>
   </action>
   <action name="actionRefaire">
