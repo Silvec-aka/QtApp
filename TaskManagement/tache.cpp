@@ -10,8 +10,6 @@ Tache::Tache(int id, double num, QString nom, int duree, double completion, QLis
     completion_ = completion;
     suivantes_ = suivantes;
     precedentes_ = precedentes;
-
-    setNum();
 }
 
 
@@ -64,22 +62,9 @@ int Tache::getId() const
 }
 
 
-void Tache::setNum()
+double Tache::getNum() const
 {
-    // TODO
-
-    // if(precedentes_.isEmpty()) num_ = 1.0;
-    // else if (precedentes_.count() > 1) num_ = precedentes_[0].getNum() + 0.1; // TODO
-    // else
-    // {
-    //     num_ = precedentes_[0].getNum() + 1.0;
-    // }
-}
-
-
-void Tache::setNum(double num)
-{
-    num_ = num;
+    return num_;
 }
 
 

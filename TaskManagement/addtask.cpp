@@ -30,7 +30,7 @@ QString addTask::getDependanceString()
 
 void addTask::on_buttonBox_accepted()
 {
-    nameString = ui->nameString->document()->toRawText();;
+    nameString = ui->nameString->document()->toRawText();
     durationInt = ui->durationInt->value();
     dependanceString = ui->dependanceString->document()->toRawText();
     accept();

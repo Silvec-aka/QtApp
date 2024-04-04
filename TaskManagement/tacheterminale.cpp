@@ -44,15 +44,6 @@ double TacheTerminale::getCompletion() const
     return completion / nbTask;
 }
 
-void TacheTerminale::setNum()
-{
-    //variable ext
-    double nb = 0.0;
-
-    num_ = nb;
-    nb += 1.0;
-}
-
 
 
 void TacheTerminale::setDuree(int duree)

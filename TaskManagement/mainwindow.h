@@ -22,8 +22,6 @@ public:
 
 private slots:
     void on_actionSauvegarder_triggered();
-    void update_listView();
-
     void on_actionAjouter_triggered();
 
 private:

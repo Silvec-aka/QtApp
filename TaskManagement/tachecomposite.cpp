@@ -53,25 +53,6 @@ double TacheComposite::getCompletion() const
     return completion / nbTask;
 }
 
-void TacheComposite::setNum()
-{
-    // TODO
-
-
-    //variable ext
-    double nb = 0.0;
-
-    double com = 0.1;
-
-    for (int i=0; i < composants_.count(); i++)
-    {
-        composants_[i].setNum(nb+com);
-        com += 0.1;
-    }
-
-    nb += 1.0;
-}
-
 
 
 void TacheComposite::setDuree(int duree)

@@ -229,28 +229,6 @@ const TacheComposite* MainWindow::findTacheComposite(int id) const
     }
 }
 
-void MainWindow::update_listView()
-{
-    // ui->listView->reset();
-
-    // // Create a new QStandardItemModel for the QListView
-    // QStandardItemModel* model = new QStandardItemModel(ui->listView);
-
-    // // On itère sur les tâches
-    // for (const Tache& tache : *taches)
-    // {
-    //     // Creation d'un QStandardItem avec le numéro de la tâche
-    //     QStandardItem* item = new QStandardItem(tache.getNum());
-
-    //     item->setData("Task " + QString::number(tache.getNum()), Qt::DisplayRole);
-
-    //     // Ajout de l'item dans le model
-    //     model->appendRow(item);
-    // }
-
-    // model->sort(0, Qt::AscendingOrder); // On tri la liste
-    // ui->listView->setModel(model);
-}
 
 int MainWindow::GenerateId()
 {
@@ -263,6 +241,8 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
 
     Tache t(GenerateId(), 0.0, nom, duree, 0.0);
 
+    taches->append(&t);
+
     // Parser la QString des dépendaces et déterminer si les tâches existent.
     // Si oui, les ajouter aux tâches précèdentes de t et ajouter t dans les suivantes
     // des tâches précèdentes
@@ -274,6 +254,7 @@ void MainWindow::AddTask(const QString nom, int duree, const QString dependances
 void MainWindow::UpdateTreeView()
 {
     // TODO CLASSER LES TÂCHES
+    // TODO SET LE NOM DES COLS
 
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
@@ -296,7 +277,7 @@ void MainWindow::UpdateListView()
 {
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
-    model->setColumnCount(3); // 2 colonnes : num, nom
+    model->setColumnCount(2); // 2 colonnes : num, nom
 
     // Création des lignes du modèle : une ligne pour chaque tâche
     QList<QStandardItem*> row;
@@ -317,6 +298,7 @@ void MainWindow::on_actionAjouter_triggered()
     dialogBox->exec();
 
     nameString = dialogBox->getNameString();
+    qDebug() << nameString;
     durationInt = dialogBox->getDurationInt();
     dependanceString = dialogBox->getDependanceString();
 

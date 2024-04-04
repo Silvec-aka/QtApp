@@ -24,7 +24,6 @@ class Tache
         Tache(Tache *tache);
         virtual int getDuree() const;
         virtual double getCompletion() const;
-        virtual void setNum();
 
         int getId() const;
 
