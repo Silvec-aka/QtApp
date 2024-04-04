@@ -24,7 +24,7 @@ private slots:
     void on_actionSauvegarder_triggered();
     void on_actionAjouter_triggered();
     void on_actionOuvrir_triggered();
-    void selectionChanged();
+    void onTableViewElementSelected(const QModelIndex &index);
 
 private:
     Ui::MainWindow *ui;

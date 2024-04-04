@@ -299,6 +299,12 @@ void MainWindow::UpdateTableView()
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(2); // 2 colonnes : num, nom
 
+    // Modification des labels des colonnes
+    QStringList columnLabels;
+    columnLabels << "Num" << "Nom";
+    model->setHorizontalHeaderLabels(columnLabels);
+
+
     qDebug() << "Update TableView 1";
 
     // Création des lignes du modèle : une ligne pour chaque tâche
@@ -318,7 +324,7 @@ void MainWindow::UpdateTableView()
     ui->tableView->setModel(model);
     ui->tableView->show();
 
-    updateTableSignals();
+    connect(ui->tableView, SIGNAL(&QTableView::clicked), this, SLOT(&MainWindow::onTableViewElementSelected));
 }
 
 void MainWindow::on_actionAjouter_triggered()
@@ -362,23 +368,12 @@ void MainWindow::on_actionOuvrir_triggered()
     UpdateTableView();
 }
 
-
-void MainWindow::updateTableSignals()
+void MainWindow::onTableViewElementSelected(const QModelIndex &index)
 {
-    QItemSelectionModel* model = ui->tableView->selectionModel();
-    connect(model, SIGNAL(itemSelectionChanges()),this, SLOT(selectionChanged()));
-}
-
-void MainWindow::selectionChanged()
-{
-    auto selectedItem = ui->tableView->model();
-    auto indexes = ui->tableView->selectionModel()->selectedIndexes()[0];
-    qDebug() << selectedItem->itemData(indexes);
-
-    // QString taskName = ui->tableView->
-    // Tache* t = findTache(i);
-
-    // QString text = "<b>Tâche n°" + QString::number()
-    // ui->textBrowser->clear();
-    // ui->textBrowser->append();
+    qDebug() << "jkevcdw";
+    if (index.isValid())
+    {
+        QVariant data = ui->tableView->model()->data(index);
+        qDebug() << data;
+    }
 }
