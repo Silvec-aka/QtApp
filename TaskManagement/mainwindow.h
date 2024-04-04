@@ -23,6 +23,7 @@ public:
 private slots:
     void on_actionSauvegarder_triggered();
     void on_actionAjouter_triggered();
+    void on_actionOuvrir_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -34,9 +35,9 @@ private:
     QString dependanceString;
     bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);
-    Tache findTache(int id) const;
+    Tache* findTache(int id) const;
     void AddTask(const QString nom, int duree, const QString dependances);
-    const TacheComposite* findTacheComposite(int id) const;
+    TacheComposite* findTacheComposite(int id) const;
     void UpdateTreeView();
     void UpdateListView();
 

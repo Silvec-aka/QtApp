@@ -87,151 +87,158 @@ bool MainWindow::writeToJson(const QString & filename)
     return true;
 }
 
-// bool MainWindow::loadFromJson(const QString & filename)
-// {
-//     // Création des dictionnaires pour les dépendances des tâches
-//     QMap<int, QList<int>> *suivantesMap = new QMap<int, QList<int>>();
-//     QMap<int, QList<int>> *precedentesMap = new QMap<int, QList<int>>();
-//     QMap<int, QList<int>> *composantsMap = new QMap<int, QList<int>>();
+bool MainWindow::loadFromJson(const QString & filename)
+{
+    // Création des dictionnaires pour les dépendances des tâches
+    QMap<int, QList<int>> *suivantesMap = new QMap<int, QList<int>>();
+    QMap<int, QList<int>> *precedentesMap = new QMap<int, QList<int>>();
+    QMap<int, QList<int>> *composantsMap = new QMap<int, QList<int>>();
 
-//     QList<Tache> tasks;
-//     QFile file(filename);
+    QFile file(filename);
 
-//     /*
-//      * On commence par créer toutes les tâches présentes dans le JSON
-//      */
-//     if (file.open(QIODevice::ReadOnly))
-//     {
-//         QByteArray jsonData = file.readAll();
-//         QJsonDocument doc = QJsonDocument::fromJson(jsonData);
-//         QJsonArray taskArray = doc.array();
+    /*
+     * On commence par créer toutes les tâches présentes dans le JSON
+     */
+    if (file.open(QIODevice::ReadOnly))
+    {
+        QByteArray jsonData = file.readAll();
+        QJsonDocument doc = QJsonDocument::fromJson(jsonData);
+        QJsonArray taskArray = doc.array();
 
-//         for (const QJsonValue& taskValue : taskArray)
-//         {
-//             QJsonObject taskObject = taskValue.toObject();
-//             int id = taskObject["id"].toInt();
-//             if (id > id_) id_ = id; // We set the id to start at the higher id in the JSON
-//             double num = taskObject["num"].toDouble();
-//             QString nom = taskObject["nom"].toString();
-//             int duree = taskObject["duree"].toInt();
-//             double completion = taskObject["completion"].toDouble();
+        for (const QJsonValue& taskValue : taskArray)
+        {
+            QJsonObject taskObject = taskValue.toObject();
+            int id = taskObject["id"].toInt();
+            if (id > id_) id_ = id; // We set the id to start at the higher id in the JSON
+            double num = taskObject["num"].toDouble();
+            QString nom = taskObject["nom"].toString();
+            int duree = taskObject["duree"].toInt();
+            double completion = taskObject["completion"].toDouble();
 
-//             // Gestion des listes
-//             QJsonArray suivantesArray = taskObject["suivantes"].toArray();
-//             QJsonArray precedentesArray = taskObject["precedentes"].toArray();
+            // Gestion des listes
+            QJsonArray suivantesArray = taskObject["suivantes"].toArray();
+            QJsonArray precedentesArray = taskObject["precedentes"].toArray();
 
-//             QList<int> suivantesId;
-//             QList<int> precedentesId;
-//             for (const QJsonValue& suivanteValue : suivantesArray)
-//             {
-//                 suivantesId.append(suivanteValue.toInt());
-//             }
-//             suivantesMap->insert(id, suivantesId);
+            QList<int> suivantesId;
+            QList<int> precedentesId;
+            for (const QJsonValue& suivanteValue : suivantesArray)
+            {
+                suivantesId.append(suivanteValue.toInt());
+            }
+            suivantesMap->insert(id, suivantesId);
 
-//             for (const QJsonValue& precedenteValue : precedentesArray)
-//             {
-//                 precedentesId.append(precedenteValue.toInt());
-//             }
-//             precedentesMap->insert(id, precedentesId);
+            for (const QJsonValue& precedenteValue : precedentesArray)
+            {
+                precedentesId.append(precedenteValue.toInt());
+            }
+            precedentesMap->insert(id, precedentesId);
 
-//             Tache* t;
-//             // Gestion du cas où l'on à une classe composite
-//             if (taskObject.contains("composants"))
-//             {
-//                 QJsonArray composantsArray = taskObject["composants"].toArray();
+            Tache* t;
+            // Gestion du cas où l'on à une classe composite
+            if (taskObject.contains("composants"))
+            {
+                QJsonArray composantsArray = taskObject["composants"].toArray();
 
-//                 QList<int> composantsId;
-//                 for (const QJsonValue& composantValue : composantsArray)
-//                 {
-//                     suivantesId.append(composantValue.toInt());
-//                 }
-//                 composantsMap->insert(id, composantsId);
+                QList<int> composantsId;
+                for (const QJsonValue& composantValue : composantsArray)
+                {
+                    suivantesId.append(composantValue.toInt());
+                }
+                composantsMap->insert(id, composantsId);
 
-//                 TacheComposite t(id, num, nom, duree, completion);
-//             }
-//             else
-//             {
-//                 TacheTerminale t(id, num, nom, duree, completion);
-//             }
+                TacheComposite t(id, num, nom, duree, completion);
+            }
+            else
+            {
+                TacheTerminale t(id, num, nom, duree, completion);
+            }
 
-//             // On ajoute la atche à notre liste de tâche
-//             taches->append(t);
-//         }
-//     }
+            // On ajoute la atche à notre liste de tâche
+            taches->append(t);
+        }
+    }
 
-//     /*
-//      * Une fois toutes les tâches créées, on peut ajouter les dépendances (suivantes, precedentes et composantes)
-//      * à l'aide des dictionnaires créés
-//      */
-//     QList<int> keys;
-//     QList<int> values;
+    qDebug() << "1";
 
-//     // Suivantes
-//     keys = suivantesMap->keys();
-//     for (int i=0; i < keys.count(); i++)
-//     {
-//         // On détermine la tâche à modifier
-//         Tache t = findTache(keys[i]);
-//         values = suivantesMap->value(keys[i]);
+    /*
+     * Une fois toutes les tâches créées, on peut ajouter les dépendances (suivantes, precedentes et composantes)
+     * à l'aide des dictionnaires créés
+     */
+    QList<int> keys;
+    QList<int> values;
 
-//         for (int j=0; i < values.count(); j++)
-//         {
-//             // On lui ajoute sa suivante
-//             t.ajouterSuivante(findTache(values[j]));
-//         }
-//     }
+    // Suivantes
+    keys = suivantesMap->keys();
+    for (int i=0; i < keys.count(); i++)
+    {
+        // On détermine la tâche à modifier
+        Tache* t = findTache(keys[i]);
+        values = suivantesMap->value(keys[i]);
 
-//     // Precedentes
-//     keys = precedentesMap->keys();
-//     for (int i=0; i < keys.count(); i++)
-//     {
-//         // On détermine la tâche à modifier
-//         Tache t = findTache(keys[i]);
-//         values = precedentesMap->value(keys[i]);
+        //qDebug() << "fooor";
 
-//         for (int j=0; i < values.count(); j++)
-//         {
-//             // On lui ajoute sa suivante
-//             t.ajouterPrecedente(findTache(values[j]));
-//         }
-//     }
+        for (int j=0; i < values.count(); j++)
+        {
+            // On lui ajoute sa suivante
+            t->ajouterSuivante(*findTache(values[j]));
+        }
+    }
 
-//     // Composants
-//     keys = composantsMap->keys();
-//     for (int i=0; i < keys.count(); i++)
-//     {
-//         // On détermine la tâche à modifier
-//         TacheComposite t = *findTacheComposite(keys[i]);
-//         values = composantsMap->value(keys[i]);
+    qDebug() << "2";
 
-//         for (int j=0; i < values.count(); j++)
-//         {
-//             // On lui ajoute sa suivante
-//             t.ajouterComposant(findTache(values[j]));
-//         }
-//     }
+    // Precedentes
+    keys = precedentesMap->keys();
+    for (int i=0; i < keys.count(); i++)
+    {
+        // On détermine la tâche à modifier
+        Tache* t = findTache(keys[i]);
+        values = precedentesMap->value(keys[i]);
 
-//     return true;
-// }
+        for (int j=0; i < values.count(); j++)
+        {
+            // On lui ajoute sa suivante
+            t->ajouterPrecedente(*findTache(values[j]));
+        }
+    }
 
-// Tache MainWindow::findTache(int id) const
-// {
-//     for (const Tache& t : *taches)
-//     {
-//         if (t.getId() == id) return t;
-//     }
-// }
+    // Composants
+    keys = composantsMap->keys();
+    for (int i=0; i < keys.count(); i++)
+    {
+        // On détermine la tâche à modifier
+        TacheComposite t = *findTacheComposite(keys[i]);
+        values = composantsMap->value(keys[i]);
 
-// const TacheComposite* MainWindow::findTacheComposite(int id) const
-// {
-//     for (const Tache* t : *taches)
-//     {
-//         if (const TacheComposite* tc = dynamic_cast<const TacheComposite*>(t))
-//         {
-//             if (t->getId() == id) return tc;
-//         }
-//     }
-// }
+        for (int j=0; i < values.count(); j++)
+        {
+            // On lui ajoute sa suivante
+            t.ajouterComposant(*findTache(values[j]));
+        }
+    }
+
+    qDebug() << "10";
+
+    return true;
+}
+
+Tache* MainWindow::findTache(int id) const
+{
+    for (Tache* t : *taches)
+    {
+        if (t->getId() == id) return t;
+    }
+}
+
+TacheComposite* MainWindow::findTacheComposite(int id) const
+{
+    for (Tache* t : *taches)
+    {
+        if (TacheComposite* tc = dynamic_cast<TacheComposite*>(t))
+        {
+            if (t->getId() == id) return tc;
+        }
+    }
+}
 
 
 int MainWindow::GenerateId()
@@ -268,7 +275,7 @@ void MainWindow::UpdateTreeView()
 
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
-    model->setColumnCount(2); // 1 colonne : le nom de la tâche
+    model->setColumnCount(1); // 1 colonne : le nom de la tâche
 
     qDebug() << "Update TreeView 1";
 
@@ -333,5 +340,23 @@ void MainWindow::on_actionAjouter_triggered()
     UpdateListView();
 
     qDebug() << "Update Ajouter";
+}
+
+
+void MainWindow::on_actionOuvrir_triggered()
+{
+
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open file"), QDir::currentPath(), "Text Files (*.json)");
+    if(!filename.isEmpty())
+    {
+        bool b = loadFromJson(filename);
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("Empty file name"), tr("Can't load empty file name"));
+    }
+
+    UpdateTreeView();
+    UpdateListView();
 }
 

@@ -64,7 +64,7 @@ void TacheComposite::setCompletion(double completion)
 }
 
 
-void TacheComposite::ajouterComposant(const Tache &t)
+void TacheComposite::ajouterComposant(const Tache t)
 {
     composants_.append(t);
 }

@@ -18,7 +18,7 @@ class TacheComposite : public Tache
         void setDuree(int duree);
         void setCompletion(double completion);
 
-        void ajouterComposant(const Tache &t);
+        void ajouterComposant(const Tache t);
         Tache supprimerComposant(int id);
 
         QJsonObject toJson() const override;
