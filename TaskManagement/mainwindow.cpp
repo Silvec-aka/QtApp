@@ -438,12 +438,13 @@ void MainWindow::onTableViewElementSelected(const QModelIndex &index)
         ui->nameString->setText(t->getNom());
         ui->time->setValue(t->getDuree());
         ui->completion->setValue(t->getCompletion());
-        //QString type;
-        //if (t->getTerminale()) type = "tâche terminale";
-        //else type = "tâche composite";
-        //ui->taskType->setText("Type : " + type)
+        // QString type;
+        // if (t->getTerminale()) type = "tâche terminale";
+        // else type = "tâche composite";
+        // ui->taskType->setText("Type : " + type)
 
-        // TODO TYPE DE TACHE
+        // TODO TYPE
+
         if (!t->getPrecedentes().empty())
         {
             ui->precedenteName->setText("Précédente : " + t->getPrecedentes()[0].getNom());
