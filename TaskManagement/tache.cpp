@@ -1,7 +1,7 @@
 #include "tache.h"
 #include <QMap>
 
-Tache::Tache(int id, double num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes)
+Tache::Tache(int id, QString num, QString nom, int duree, double completion, QList<Tache> suivantes, QList<Tache> precedentes)
 {
     id_ = id;
     num_ = num;
@@ -63,9 +63,14 @@ int Tache::getId() const
 }
 
 
-double Tache::getNum() const
+QString Tache::getNum() const
 {
     return num_;
+}
+
+void Tache::setNum(QString num)
+{
+    num_ = num;
 }
 
 
@@ -182,7 +187,7 @@ QList<QStandardItem*> Tache::addToList() const
     QStandardItem* nom = new QStandardItem(nom_);
     nom->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
-    QStandardItem* num = new QStandardItem(QString::number(num_));
+    QStandardItem* num = new QStandardItem(num_);
     num->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QList<QStandardItem*> childCol;

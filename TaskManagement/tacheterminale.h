@@ -7,7 +7,7 @@
 class TacheTerminale : public Tache
 {
     public:
-        TacheTerminale(int id, double num, QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
+        TacheTerminale(int id, QString num, QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
         TacheTerminale(Tache* t);
 
         int getDuree() const override;

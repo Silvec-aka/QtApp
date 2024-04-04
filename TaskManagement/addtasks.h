@@ -19,6 +19,8 @@ public:
     int getDurationInt();
     QString getDependanceString();
     void fillAllTaks(QList<QString>);
+    bool getIsTerminal() const;
+    bool getIsPrincipale() const;
 
 private slots:
     void on_buttonBox_accepted();
@@ -30,6 +32,8 @@ private:
     QString nameString;
     int durationInt;
     QString dependanceString;
+    bool isTerminal;
+    bool isPrincipale;
 
     QList<QString> allTasks;
 };

@@ -34,10 +34,14 @@ private:
     QString nameString;
     int durationInt;
     QString dependanceString;
+    bool isTerminal;
+    bool isPrincipale;
     bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);
     Tache* findTache(int id) const;
-    void AddTask(const QString nom, int duree, const QString dependances);
+    Tache* findTacheByName(QString name) const;
+    void AddTaskTerminal(const QString nom, int duree, const QString dependances, bool isPrincipale);
+    void AddTaskComposite(const QString nom, int duree, const QString dependances, bool isPrincipale);
     TacheComposite* findTacheComposite(int id) const;
     void UpdateTreeView();
     void UpdateTableView();
