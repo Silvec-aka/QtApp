@@ -317,6 +317,8 @@ void MainWindow::UpdateTableView()
 
     ui->tableView->setModel(model);
     ui->tableView->show();
+
+    updateTableSignals();
 }
 
 void MainWindow::on_actionAjouter_triggered()
@@ -355,3 +357,23 @@ void MainWindow::on_actionOuvrir_triggered()
     UpdateTableView();
 }
 
+
+void MainWindow::updateTableSignals()
+{
+    QItemSelectionModel* model = ui->tableView->selectionModel();
+    connect(model, SIGNAL(itemSelectionChanges()),this, SLOT(selectionChanged()));
+}
+
+void MainWindow::selectionChanged()
+{
+    auto selectedItem = ui->tableView->model();
+    auto indexes = ui->tableView->selectionModel()->selectedIndexes()[0];
+    qDebug() << selectedItem->itemData(indexes);
+
+    // QString taskName = ui->tableView->
+    // Tache* t = findTache(i);
+
+    // QString text = "<b>Tâche n°" + QString::number()
+    // ui->textBrowser->clear();
+    // ui->textBrowser->append();
+}

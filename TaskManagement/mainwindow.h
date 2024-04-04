@@ -24,6 +24,7 @@ private slots:
     void on_actionSauvegarder_triggered();
     void on_actionAjouter_triggered();
     void on_actionOuvrir_triggered();
+    void selectionChanged();
 
 private:
     Ui::MainWindow *ui;
@@ -44,5 +45,6 @@ private:
     void saveFile(const QString & filename);
 
     int GenerateId();
+    void updateTableSignals();
 };
 #endif // MAINWINDOW_H

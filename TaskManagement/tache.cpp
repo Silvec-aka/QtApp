@@ -163,28 +163,6 @@ QJsonObject Tache::toJson() const
     }
 
     return tObj;
-    /*QJsonObject json;
-
-    json["id"] = id_;
-    json["num"] = num_;
-    json["nom"] = nom_;
-    json["duree"] = duree_;
-    json["completion"] = completion_;
-
-    QJsonArray suivantes;
-    QJsonArray precedentes;
-    for (int i=0; i<suivantes_.count(); i++)
-    {
-        suivantes.append((suivantes_[i]).id_);
-    }
-    json["suivantes"] = suivantes;
-    for (int i=0; i<precedentes_.count(); i++)
-    {
-        suivantes.append((precedentes_[i]).id_);
-    }
-    json["precedentes"] = precedentes;
-
-    return json;*/
 }
 
 QList<QStandardItem*> Tache::addToTree() const
