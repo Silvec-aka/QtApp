@@ -262,7 +262,7 @@ void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dep
         Tache* tacheDependance = findTacheByName(dependance);
         QString numDep = tacheDependance->getNum();
 
-        if (isPrincipale)
+        if (!idsComposite->contains(tacheDependance->getId()) || (isPrincipale && tacheDependance->getSuivantes().length() == 0))
         {
             int newNum = numDep.toInt() +1 ;
             t->setNum(QString::number(newNum));
@@ -301,10 +301,11 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
         Tache* tacheDependance = findTacheByName(dependance);
         QString numDep = tacheDependance->getNum();
 
-        if (isPrincipale)
+        if ( !idsComposite->contains(tacheDependance->getId()) || (isPrincipale && tacheDependance->getSuivantes().length() == 0))
         {
             int newNum = numDep.toInt() +1 ;
             t->setNum(QString::number(newNum));
+
 
             t->ajouterPrecedente(tacheDependance);
             tacheDependance->ajouterSuivante(*t);
@@ -317,8 +318,6 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
 
             t->ajouterPrecedente(tacheDepComp);
             tacheDepComp->ajouterComposant(*t);
-
-            // qDebug() << tacheDepComp->getComposante()[0].getNom();
 
             t->setNum(numDep + "." + QString::number(tacheDepComp->getComposante().length()) );
         }
@@ -472,13 +471,13 @@ void MainWindow::onTableViewElementSelected(const QModelIndex &index)
             ui->precedenteName->setText("Précédente : / ");
         }
 
-        if (!t->getPrecedentes().empty())
+        if (!t->getSuivantes().empty())
         {
-            ui->suivanteName->setText("Suivante : " + t->getPrecedentes()[0].getNom());
+            ui->suivanteName->setText("Suivante : " + t->getSuivantes()[0].getNom());
         }
         else
         {
-            ui->precedenteName->setText("Suivante : / ");
+            ui->suivanteName->setText("Suivante : / ");
         }
 
         descriptionTask_ = t;
