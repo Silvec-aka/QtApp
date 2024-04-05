@@ -5,6 +5,7 @@
 #include "tache.h"
 #include "tachecomposite.h"
 #include <QModelIndexList>
+#include "addtasks.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -37,6 +38,8 @@ private:
     Tache* descriptionTask_ = NULL; // tâche dont la description est affichée
 
     QList<int>* idsComposite;
+
+    // addTasks* dialogBox_;
 
     QString nameString;
     int durationInt;

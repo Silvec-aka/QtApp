@@ -22,6 +22,8 @@ public:
     bool getIsTerminal() const;
     bool getIsPrincipale() const;
 
+    bool getAccepted() const;
+
 private slots:
     void on_buttonBox_accepted();
 
@@ -34,6 +36,8 @@ private:
     QString dependanceString;
     bool isTerminal;
     bool isPrincipale;
+
+    bool accepted;
 
     QList<QString> allTasks;
 };

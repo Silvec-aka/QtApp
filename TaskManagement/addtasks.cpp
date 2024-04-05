@@ -47,6 +47,11 @@ bool addTasks::getIsPrincipale() const
     return isPrincipale;
 }
 
+bool addTasks::getAccepted() const
+{
+    return accepted;
+}
+
 void addTasks::on_buttonBox_accepted()
 {
     nameString = ui->nameString->text();
@@ -54,12 +59,16 @@ void addTasks::on_buttonBox_accepted()
     dependanceString = ui->dependanceBox->currentText();
     isTerminal = ui->isTerminal->isChecked();
     isPrincipale = ui->isPrincipale->isChecked();
+
+    accepted = true;
+
     accept();
 }
 
 
 void addTasks::on_buttonBox_rejected()
 {
+    accepted = false;
     reject();
 }
 

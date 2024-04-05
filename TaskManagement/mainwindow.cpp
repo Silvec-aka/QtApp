@@ -407,8 +407,15 @@ void MainWindow::on_actionAjouter_triggered()
     }
 
     dialogBox->fillAllTaks(l);
+
+
+
+    // dialogBox_ = dialogBox;
+
+    //connect(dialogBox_, SIGNAL(accepted()), this, SLOT(onAccepted()));
     dialogBox->exec();
 
+    if (!dialogBox->getAccepted()) return;
     nameString = dialogBox->getNameString();
     durationInt = dialogBox->getDurationInt();
     dependanceString = dialogBox->getDependanceString();
@@ -427,6 +434,27 @@ void MainWindow::on_actionAjouter_triggered()
     UpdateTreeView();
     UpdateTableView();
 }
+
+// void MainWindow::onAccepted()
+// {
+//     nameString = dialogBox_->getNameString();
+//     durationInt = dialogBox_->getDurationInt();
+//     dependanceString = dialogBox_->getDependanceString();
+//     isTerminal = dialogBox_->getIsTerminal();
+//     isPrincipale = dialogBox_->getIsPrincipale();
+
+//     if (isTerminal)
+//     {
+//         AddTaskTerminal(nameString, durationInt, dependanceString, isPrincipale);
+//     }
+//     else
+//     {
+//         AddTaskComposite(nameString, durationInt, dependanceString, isPrincipale);
+//     }
+
+//     UpdateTreeView();
+//     UpdateTableView();
+// }
 
 
 void MainWindow::on_actionOuvrir_triggered()
