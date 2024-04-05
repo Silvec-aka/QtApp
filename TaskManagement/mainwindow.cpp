@@ -483,3 +483,12 @@ void MainWindow::on_pushButton_clicked()
     UpdateTableView();
     UpdateTableView();
 }
+
+void MainWindow::on_actionSupprimer_triggered()
+{
+    // delete descriptionTask_;
+
+    // UpdateTableView();
+    // UpdateTableView();
+}
+

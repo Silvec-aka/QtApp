@@ -28,6 +28,8 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void on_actionSupprimer_triggered();
+
 private:
     Ui::MainWindow *ui;
     QList<Tache*> *taches;

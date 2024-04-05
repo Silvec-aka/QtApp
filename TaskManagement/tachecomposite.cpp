@@ -35,6 +35,13 @@ int TacheComposite::getDuree() const
     return duree;
 }
 
+// TacheComposite::~TacheComposite()
+// {
+//     qDeleteAll(suivantes_);
+//     qDeleteAll(precedentes_);
+//     qDeleteAll(composants_);
+// }
+
 
 double TacheComposite::getCompletion() const
 {

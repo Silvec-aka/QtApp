@@ -20,6 +20,11 @@ TacheTerminale::TacheTerminale(Tache *t)
     precedentes_ = t->getPrecedentes();
 }
 
+// TacheTerminale::~TacheTerminale()
+// {
+//     qDeleteAll(suivantes_.begin(), suivantes_.end());
+//     qDeleteAll(precedentes_);
+// }
 
 
 int TacheTerminale::getDuree() const

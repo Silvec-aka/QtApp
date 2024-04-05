@@ -24,6 +24,13 @@ Tache::Tache(Tache *tache)
     precedentes_ = tache->precedentes_;
 }
 
+// Tache::~Tache()
+// {
+//     qDeleteAll(suivantes_);
+//     qDeleteAll(precedentes_);
+
+// }
+
 
 int Tache::getDuree() const
 {
