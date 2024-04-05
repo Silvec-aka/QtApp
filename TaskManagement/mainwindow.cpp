@@ -32,7 +32,13 @@ MainWindow::MainWindow(QWidget *parent)
     taches = new QList<Tache*>();
 
     idsComposite = new QList<int>();
+
+    QMessageBox::about(this, tr("À propos"), tr("Ceci est une application de gestion de tâche réalisée par <b>Lydie Santos</b> et <b>Jules Pellevoizin</b>"
+                                                " dans le cadre d'un projet de Langage Objet Avancé à l'ENSIIE."
+                                                "<br><br>"
+                                                "<b>Credits : </b><br> Logo : Lydie Santos"));
 }
+
 
 /**
  * @brief Destructeur de la classe MainWindow
