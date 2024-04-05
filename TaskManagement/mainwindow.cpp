@@ -67,11 +67,6 @@ bool MainWindow::writeToJson(const QString & filename)
 {
     QJsonArray taskArray;
 
-    //QtPrivate::QForeachContainer<QList<Tache*>*>
-    // for (const Tache& t : *taches)
-    // {
-    //     taskArray.append(t.toJson());
-    // }
     Q_FOREACH(const Tache& t , *taches)
     {
         taskArray.append(t.toJson());
@@ -118,22 +113,29 @@ bool MainWindow::loadFromJson(const QString & filename)
             double completion = taskObject["completion"].toDouble();
 
             // Gestion des listes
-            QJsonArray suivantesArray = taskObject["suivantes"].toArray();
-            QJsonArray precedentesArray = taskObject["precedentes"].toArray();
-
-            QList<int> suivantesId;
-            QList<int> precedentesId;
-            for (const QJsonValue& suivanteValue : suivantesArray)
+            if (taskObject.contains("suivantes"))
             {
-                suivantesId.append(suivanteValue.toInt());
-            }
-            suivantesMap->insert(id, suivantesId);
+                QJsonArray suivantesArray = taskObject["suivantes"].toArray();
 
-            for (const QJsonValue& precedenteValue : precedentesArray)
-            {
-                precedentesId.append(precedenteValue.toInt());
+                QList<int> suivantesId;
+                for (const QJsonValue& suivanteValue : suivantesArray)
+                {
+                    suivantesId.append(suivanteValue.toInt());
+                }
+                suivantesMap->insert(id, suivantesId);
             }
-            precedentesMap->insert(id, precedentesId);
+
+            if (taskObject.contains("precedentes"))
+            {
+                QJsonArray precedentesArray = taskObject["precedentes"].toArray();
+
+                QList<int> precedentesId;
+                for (const QJsonValue& precedenteValue : precedentesArray)
+                {
+                    precedentesId.append(precedenteValue.toInt());
+                }
+                precedentesMap->insert(id, precedentesId);
+            }
 
             // Gestion du cas où l'on à une classe composite
             if (taskObject.contains("composants"))
@@ -143,24 +145,22 @@ bool MainWindow::loadFromJson(const QString & filename)
                 QList<int> composantsId;
                 for (const QJsonValue& composantValue : composantsArray)
                 {
-                    suivantesId.append(composantValue.toInt());
+                    composantsId.append(composantValue.toInt());
                 }
                 composantsMap->insert(id, composantsId);
 
                 TacheComposite* t = new TacheComposite(id, num, nom, duree, completion);
-                // On ajoute la atche à notre liste de tâche
+                // On ajoute la tâche à notre liste de tâche
                 taches->append(t);
             }
             else
             {
                 TacheTerminale* t = new TacheTerminale(id, num, nom, duree, completion);
-                // On ajoute la atche à notre liste de tâche
+                // On ajoute la tâche à notre liste de tâche
                 taches->append(t);
             }
         }
     }
-
-    qDebug() << "1";
 
     /*
      * Une fois toutes les tâches créées, on peut ajouter les dépendances (suivantes, precedentes et composantes)
@@ -177,12 +177,13 @@ bool MainWindow::loadFromJson(const QString & filename)
         Tache* t = findTache(keys[i]);
         values = suivantesMap->value(keys[i]);
 
-        for (int j=0; i < values.count(); j++)
+        for (int j=0; j < values.count(); j++)
         {
             // On lui ajoute sa suivante
             t->ajouterSuivante(*findTache(values[j]));
         }
     }
+
 
     // Precedentes
     keys = precedentesMap->keys();
@@ -192,7 +193,7 @@ bool MainWindow::loadFromJson(const QString & filename)
         Tache* t = findTache(keys[i]);
         values = precedentesMap->value(keys[i]);
 
-        for (int j=0; i < values.count(); j++)
+        for (int j=0; j < values.count(); j++)
         {
             // On lui ajoute sa suivante
             t->ajouterPrecedente(*findTache(values[j]));
@@ -207,7 +208,7 @@ bool MainWindow::loadFromJson(const QString & filename)
         TacheComposite t = *findTacheComposite(keys[i]);
         values = composantsMap->value(keys[i]);
 
-        for (int j=0; i < values.count(); j++)
+        for (int j=0; j < values.count(); j++)
         {
             // On lui ajoute sa suivante
             t.ajouterComposant(*findTache(values[j]));
