@@ -271,7 +271,8 @@ void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dep
         }
         else
         {
-            TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
+            // TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
+            TacheComposite* tacheDepComp = findTacheComposite(tacheDependance->getId());
 
             t->ajouterPrecedente(tacheDepComp);
             tacheDepComp->ajouterComposant(*t);
@@ -309,10 +310,14 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
         }
         else
         {
-            TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
+            // TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
+
+            TacheComposite* tacheDepComp = findTacheComposite(tacheDependance->getId());
 
             t->ajouterPrecedente(tacheDepComp);
             tacheDepComp->ajouterComposant(*t);
+
+            // qDebug() << tacheDepComp->getComposante()[0].getNom();
 
             t->setNum(numDep + "." + QString::number(tacheDepComp->getComposante().length()) );
         }
