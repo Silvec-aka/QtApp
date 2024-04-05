@@ -338,23 +338,27 @@ void MainWindow::UpdateTreeView()
     model->setColumnCount(1); // 1 colonne : le nom de la tâche
 
     // Création des lignes du modèle : une ligne pour chaque tâche
-    QList<QStandardItem*> row;
+    QStandardItem* row;
 
     Q_FOREACH(const Tache &t , *taches)
     {
-        // if (idsComposite->contains(t.getId()))
-        // {
-        //     QStandardItem* rootItem = new QStandardItem(t.getNom());
-        //     model->appendRow(new QStandardItem(t.getNom()));
-        //     TacheComposite t = new TacheComposite(t);
-        //     for (const Tache& tache : t.getComposante())
-        //     {
-        //         row = t.addToTree();
-        //         QStandardItem *item = rootItem->child(row);
-        //     }
-        // }
-        row = t.addToTree();
-        model->appendRow(row);
+        if (!t.getNum().contains("."))
+        {
+            row = t.addToTree();
+            model->appendRow(row);
+
+            if (idsComposite->contains(t.getId()))
+            {
+                TacheComposite* tacheDepComp = findTacheComposite(t.getId());
+                QStandardItem* rowChild;
+                for (int i=0; i < tacheDepComp->getComposante().length(); i++)
+                {
+                    qDebug() << tacheDepComp->getComposante()[i].getNom();
+                    rowChild = tacheDepComp->getComposante()[i].addToTree();
+                    row->appendRow(rowChild);
+                }
+            }
+        }
     }
 
     ui->treeView->setModel(model);
@@ -494,7 +498,7 @@ void MainWindow::on_pushButton_clicked()
     descriptionTask_->setDuree(newDuree);
     descriptionTask_->setCompletion(newCompletion);
 
-    UpdateTableView();
+    UpdateTreeView();
     UpdateTableView();
 }
 

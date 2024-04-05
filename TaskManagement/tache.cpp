@@ -188,15 +188,15 @@ QJsonObject Tache::toJson() const
     return tObj;
 }
 
-QList<QStandardItem*> Tache::addToTree() const
+QStandardItem* Tache::addToTree() const
 {    
     QStandardItem* nom = new QStandardItem(nom_);
     nom->setFlags(Qt::ItemIsEnabled);
 
-    QList<QStandardItem*> childCol;
-    childCol << nom;
+    // QList<QStandardItem*> childCol;
+    // childCol << nom;
 
-    return childCol;
+    return nom;
 }
 
 

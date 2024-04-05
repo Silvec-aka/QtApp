@@ -48,7 +48,7 @@ class Tache
         Tache retirerPrecedente(int id);
 
         virtual QJsonObject toJson() const;
-        QList<QStandardItem*> addToTree() const;
+        QStandardItem* addToTree() const;
         QList<QStandardItem*> addToList() const;
 
 
