@@ -6,7 +6,6 @@ addTasks::addTasks(QWidget *parent)
     , ui(new Ui::addTasks)
 {
     ui->setupUi(this);
-    // ui->dependanceBox->addItem("text");
 }
 
 addTasks::~addTasks()

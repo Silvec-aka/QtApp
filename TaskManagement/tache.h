@@ -22,7 +22,6 @@ class Tache
     public:
         explicit Tache(int id = 0, QString num = "0", QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>());
         Tache(Tache *tache);
-        // virtual ~Tache();
 
         virtual int getDuree() const;
         virtual double getCompletion() const;

@@ -24,14 +24,6 @@ Tache::Tache(Tache *tache)
     precedentes_ = tache->precedentes_;
 }
 
-// Tache::~Tache()
-// {
-//     qDeleteAll(suivantes_);
-//     qDeleteAll(precedentes_);
-
-// }
-
-
 int Tache::getDuree() const
 {
     // On initialise la durée à la durée de cette tâche
@@ -137,6 +129,7 @@ Tache Tache::retirerSuivante(int id)
             return t;
         }
     }
+    return NULL;
 }
 
 
@@ -151,8 +144,8 @@ Tache Tache::retirerPrecedente(int id)
             return t;
         }
     }
+    return NULL;
 }
-
 
 
 QJsonObject Tache::toJson() const
@@ -192,9 +185,6 @@ QStandardItem* Tache::addToTree() const
 {    
     QStandardItem* nom = new QStandardItem(nom_);
     nom->setFlags(Qt::ItemIsEnabled);
-
-    // QList<QStandardItem*> childCol;
-    // childCol << nom;
 
     return nom;
 }

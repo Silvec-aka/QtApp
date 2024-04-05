@@ -8,8 +8,6 @@ TacheComposite::TacheComposite(int id, QString num, QString nom, int duree, doub
 
 TacheComposite::TacheComposite(Tache *t, QList<Tache> composants)
 {
-    // TODO : pb car get Duree renvoie la durée totale et pas juste celle de la tâche
-
     id_ = t->getId();
     nom_ = t->getNom();
     num_ = t->getNum();
@@ -34,13 +32,6 @@ int TacheComposite::getDuree() const
 
     return duree;
 }
-
-// TacheComposite::~TacheComposite()
-// {
-//     qDeleteAll(suivantes_);
-//     qDeleteAll(precedentes_);
-//     qDeleteAll(composants_);
-// }
 
 
 double TacheComposite::getCompletion() const
@@ -91,6 +82,7 @@ Tache TacheComposite::supprimerComposant(int id)
             return t;
         }
     }
+    return NULL;
 }
 
 QJsonObject TacheComposite::toJson() const

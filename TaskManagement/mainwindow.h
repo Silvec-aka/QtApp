@@ -26,9 +26,7 @@ private slots:
     void on_actionAjouter_triggered();
     void on_actionOuvrir_triggered();
     void onTableViewElementSelected(const QModelIndex &index);
-
     void on_pushButton_clicked();
-
     void on_actionSupprimer_triggered();
 
 private:
@@ -39,26 +37,26 @@ private:
 
     QList<int>* idsComposite;
 
-    // addTasks* dialogBox_;
-
     QString nameString;
     int durationInt;
     QString dependanceString;
     bool isTerminal;
     bool isPrincipale;
+
     bool writeToJson(const QString & filename);
     bool loadFromJson(const QString & filename);
+    void saveFile(const QString & filename);
+
     Tache* findTache(int id) const;
     Tache* findTacheByName(QString name) const;
+    TacheComposite* findTacheComposite(int id) const;
+
     void AddTaskTerminal(const QString nom, int duree, const QString dependances, bool isPrincipale);
     void AddTaskComposite(const QString nom, int duree, const QString dependances, bool isPrincipale);
-    TacheComposite* findTacheComposite(int id) const;
+
     void UpdateTreeView();
     void UpdateTableView();
 
-    void saveFile(const QString & filename);
-
     int GenerateId();
-    void updateTableSignals();
 };
 #endif // MAINWINDOW_H

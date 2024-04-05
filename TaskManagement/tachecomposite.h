@@ -11,7 +11,6 @@ class TacheComposite : public Tache
     public:
         TacheComposite(int id = 0, QString num = "0", QString nom = "nouvelle tache", int duree = 0, double completion = 0.0, QList<Tache> suivantes = QList<Tache>(), QList<Tache> precedentes = QList<Tache>(), QList<Tache> composants = QList<Tache>());
         TacheComposite(Tache* t, QList<Tache> composants = QList<Tache>());
-        // ~TacheComposite();
 
         int getDuree() const override;
         double getCompletion() const override;

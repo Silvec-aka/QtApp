@@ -79,9 +79,10 @@ bool MainWindow::writeToJson(const QString & filename)
         QJsonDocument doc(taskArray);
         file.write(doc.toJson());
         file.close();
+        return true;
     }
 
-    return true;
+    return false;
 }
 
 bool MainWindow::loadFromJson(const QString & filename)
@@ -160,6 +161,10 @@ bool MainWindow::loadFromJson(const QString & filename)
                 taches->append(t);
             }
         }
+    }
+    else
+    {
+        return false;
     }
 
     /*
@@ -272,7 +277,6 @@ void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dep
         }
         else
         {
-            // TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
             TacheComposite* tacheDepComp = findTacheComposite(tacheDependance->getId());
 
             t->ajouterPrecedente(tacheDepComp);
@@ -280,8 +284,6 @@ void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dep
 
             t->setNum(numDep + "." + QString::number(tacheDepComp->getComposante().length()) );
         }
-
-        // t->setNum();
     }
     else
     {
@@ -306,14 +308,11 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
             int newNum = numDep.toInt() +1 ;
             t->setNum(QString::number(newNum));
 
-
             t->ajouterPrecedente(tacheDependance);
             tacheDependance->ajouterSuivante(*t);
         }
         else
         {
-            // TacheComposite* tacheDepComp = new TacheComposite(tacheDependance);
-
             TacheComposite* tacheDepComp = findTacheComposite(tacheDependance->getId());
 
             t->ajouterPrecedente(tacheDepComp);
@@ -329,7 +328,6 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
 
     taches->append(t);
 }
-
 
 void MainWindow::UpdateTreeView()
 {
@@ -353,7 +351,6 @@ void MainWindow::UpdateTreeView()
                 QStandardItem* rowChild;
                 for (int i=0; i < tacheDepComp->getComposante().length(); i++)
                 {
-                    qDebug() << tacheDepComp->getComposante()[i].getNom();
                     rowChild = tacheDepComp->getComposante()[i].addToTree();
                     row->appendRow(rowChild);
                 }
@@ -407,12 +404,6 @@ void MainWindow::on_actionAjouter_triggered()
     }
 
     dialogBox->fillAllTaks(l);
-
-
-
-    // dialogBox_ = dialogBox;
-
-    //connect(dialogBox_, SIGNAL(accepted()), this, SLOT(onAccepted()));
     dialogBox->exec();
 
     if (!dialogBox->getAccepted()) return;
@@ -435,39 +426,13 @@ void MainWindow::on_actionAjouter_triggered()
     UpdateTableView();
 }
 
-// void MainWindow::onAccepted()
-// {
-//     nameString = dialogBox_->getNameString();
-//     durationInt = dialogBox_->getDurationInt();
-//     dependanceString = dialogBox_->getDependanceString();
-//     isTerminal = dialogBox_->getIsTerminal();
-//     isPrincipale = dialogBox_->getIsPrincipale();
-
-//     if (isTerminal)
-//     {
-//         AddTaskTerminal(nameString, durationInt, dependanceString, isPrincipale);
-//     }
-//     else
-//     {
-//         AddTaskComposite(nameString, durationInt, dependanceString, isPrincipale);
-//     }
-
-//     UpdateTreeView();
-//     UpdateTableView();
-// }
-
-
 void MainWindow::on_actionOuvrir_triggered()
 {
 
     QString filename = QFileDialog::getOpenFileName(this, tr("Open file"), QDir::currentPath(), "Text Files (*.json)");
-    if(!filename.isEmpty())
+    if(!loadFromJson(filename))
     {
-        bool b = loadFromJson(filename);
-    }
-    else
-    {
-        QMessageBox::warning(this, tr("Empty file name"), tr("Can't load empty file name"));
+        QMessageBox::warning(this, tr("Erreur"), tr("Impossible de charger le fichier"));
     }
 
     UpdateTreeView();

@@ -9,8 +9,6 @@ TacheTerminale::TacheTerminale(int id, QString num, QString nom, int duree, doub
 
 TacheTerminale::TacheTerminale(Tache *t)
 {
-    // TODO : pb car get Duree renvoie la durée totale et pas juste celle de la tâche
-
     id_ = t->getId();
     nom_ = t->getNom();
     num_ = t->getNum();
@@ -19,13 +17,6 @@ TacheTerminale::TacheTerminale(Tache *t)
     suivantes_ = t->getSuivantes();
     precedentes_ = t->getPrecedentes();
 }
-
-// TacheTerminale::~TacheTerminale()
-// {
-//     qDeleteAll(suivantes_.begin(), suivantes_.end());
-//     qDeleteAll(precedentes_);
-// }
-
 
 int TacheTerminale::getDuree() const
 {
