@@ -189,7 +189,7 @@ QJsonObject Tache::toJson() const
 }
 
 QList<QStandardItem*> Tache::addToTree() const
-{
+{    
     QStandardItem* nom = new QStandardItem(nom_);
     nom->setFlags(Qt::ItemIsEnabled);
 

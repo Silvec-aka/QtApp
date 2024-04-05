@@ -328,8 +328,6 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
 
 void MainWindow::UpdateTreeView()
 {
-    // TODO CLASSER LES TÂCHES
-
     // Création du modèle
     QStandardItemModel *model = new QStandardItemModel();
     model->setColumnCount(1); // 1 colonne : le nom de la tâche
@@ -339,6 +337,17 @@ void MainWindow::UpdateTreeView()
 
     Q_FOREACH(const Tache &t , *taches)
     {
+        // if (idsComposite->contains(t.getId()))
+        // {
+        //     QStandardItem* rootItem = new QStandardItem(t.getNom());
+        //     model->appendRow(new QStandardItem(t.getNom()));
+        //     TacheComposite t = new TacheComposite(t);
+        //     for (const Tache& tache : t.getComposante())
+        //     {
+        //         row = t.addToTree();
+        //         QStandardItem *item = rootItem->child(row);
+        //     }
+        // }
         row = t.addToTree();
         model->appendRow(row);
     }
@@ -441,12 +450,12 @@ void MainWindow::onTableViewElementSelected(const QModelIndex &index)
         ui->nameString->setText(t->getNom());
         ui->time->setValue(t->getDuree());
         ui->completion->setValue(t->getCompletion());
-        // QString type;
-        // if (t->getTerminale()) type = "tâche terminale";
-        // else type = "tâche composite";
-        // ui->taskType->setText("Type : " + type)
 
-        // TODO TYPE
+        QString type = "tâche terminale";
+        if (idsComposite->contains(t->getId())) type = "tâche composite";
+
+        ui->taskType->setText("Type : " + type);
+
 
         if (!t->getPrecedentes().empty())
         {
