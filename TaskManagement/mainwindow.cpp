@@ -1,3 +1,7 @@
+/**
+ * @file mainwindow.cpp
+*/
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tacheterminale.h"
@@ -13,6 +17,13 @@
 #include <QStandardItemModel>
 
 
+
+/**
+
+ * @brief Constructeur de la classe MainWindow
+ *
+ * @param parent Le widget parent de la fenêtre principale
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,25 +34,20 @@ MainWindow::MainWindow(QWidget *parent)
     idsComposite = new QList<int>();
 }
 
+/**
+ * @brief Destructeur de la classe MainWindow
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void MainWindow::saveFile(const QString & filename)
-{
-    bool success = writeToJson(filename);
 
-    if (success)
-    {
-        QMessageBox::information(this, tr("Sauvegader"), tr("Le fichier ") + filename + tr("a bien été enregistré"));
-    }
-    else
-    {
-        QMessageBox::warning(this, tr("Sauvegader"), tr("Le fichier ") + filename + tr("n'a pas pû être enregistré"));
-    }
-}
-
+/**
+ * @brief Méthode on_actionSauvegarder_triggered qui gère le signal de sauvegarde
+ *
+ * -> slot
+ */
 void MainWindow::on_actionSauvegarder_triggered()
 {
     QString filename;
@@ -63,6 +69,155 @@ void MainWindow::on_actionSauvegarder_triggered()
 }
 
 
+/**
+ * @brief Méthode on_actionAjouter_triggered qui gère le signal d'ajout de tâche
+ *
+ * -> slot
+ */
+void MainWindow::on_actionAjouter_triggered()
+{
+    addTasks* dialogBox = new addTasks();
+    QList<QString> l;
+    Q_FOREACH(const Tache &t , *taches)
+    {
+        if (idsComposite->contains(t.getId()) || (!(t.getNum().contains(".")) && t.getSuivantes().length()==0))
+        {
+            l.append(t.getNom());
+        }
+    }
+
+    dialogBox->fillAllTaks(l);
+    dialogBox->exec();
+
+    if (!dialogBox->getAccepted()) return;
+    nameString = dialogBox->getNameString();
+    durationInt = dialogBox->getDurationInt();
+    dependanceString = dialogBox->getDependanceString();
+    isTerminal = dialogBox->getIsTerminal();
+    isPrincipale = dialogBox->getIsPrincipale();
+
+    if (isTerminal)
+    {
+        AddTaskTerminal(nameString, durationInt, dependanceString, isPrincipale);
+    }
+    else
+    {
+        AddTaskComposite(nameString, durationInt, dependanceString, isPrincipale);
+    }
+
+    UpdateTreeView();
+    UpdateTableView();
+}
+
+
+/**
+ * @brief Méthode on_actionOuvrir_triggered qui gère le signal d'ouverture d'un fichier .json à charger
+ *
+ * -> slot
+ */
+void MainWindow::on_actionOuvrir_triggered()
+{
+
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open file"), QDir::currentPath(), "Text Files (*.json)");
+    if(!loadFromJson(filename))
+    {
+        QMessageBox::warning(this, tr("Erreur"), tr("Impossible de charger le fichier"));
+    }
+
+    UpdateTreeView();
+    UpdateTableView();
+}
+
+
+/**
+ * @brief Méthode onTableViewElementSelected qui gère le signal de sélection d'une tâche dans le TableView
+ *
+ * -> slot
+ */
+void MainWindow::onTableViewElementSelected(const QModelIndex &index)
+{
+    if (index.isValid())
+    {
+        QVariant data = ui->tableView->model()->data(index);
+
+        Tache* t = findTacheByName(data.toString());
+        if (t==NULL) return;
+
+        ui->DescriptionLabel->setText("<center><b>" + tr("Tache n°") + t->getNum() + "</b></center>");
+        ui->nameString->setText(t->getNom());
+        ui->time->setValue(t->getDuree());
+        ui->completion->setValue(t->getCompletion());
+
+        QString type = tr("tâche terminale");
+        if (idsComposite->contains(t->getId())) type = tr("tâche composite");
+
+        ui->taskType->setText(tr("Type : ") + type);
+
+
+        if (!t->getPrecedentes().empty())
+        {
+            ui->precedenteName->setText(tr("Précédente : ") + t->getPrecedentes()[0].getNom());
+        }
+        else
+        {
+            ui->precedenteName->setText(tr("Précédente : / "));
+        }
+
+        if (!t->getSuivantes().empty())
+        {
+            ui->suivanteName->setText(tr("Suivante : ") + t->getSuivantes()[0].getNom());
+        }
+        else
+        {
+            ui->suivanteName->setText(tr("Suivante : / "));
+        }
+
+        descriptionTask_ = t;
+    }
+}
+
+
+/**
+ * @brief Méthode on_pushButton_clicked qui gère le signal de modification d'une tâche (boutton Appliquer séléctionné)
+ *
+ * -> slot
+ */
+void MainWindow::on_pushButton_clicked()
+{
+    QString newName = ui->nameString->text();
+    int newDuree = ui->time->value();
+    double newCompletion = ui->completion->value();
+
+    descriptionTask_->SetNom(newName);
+    descriptionTask_->setDuree(newDuree);
+    descriptionTask_->setCompletion(newCompletion);
+
+    UpdateTreeView();
+    UpdateTableView();
+}
+
+
+/**
+ * @brief Méthode on_actionSupprimer_triggered qui gère le signal de suppression d'une tâche
+ *
+ * -> slot
+ */
+void MainWindow::on_actionSupprimer_triggered()
+{
+    // delete descriptionTask_;
+
+    // UpdateTableView();
+    // UpdateTableView();
+}
+
+
+/**
+ * @brief Méthode writeToJson qui écrit les tâches dans un fichier JSON
+ *
+ * @param filename Le nom du fichier JSON à écrire
+ *
+ * @return True si l'écriture a réussi, false sinon
+ */
 bool MainWindow::writeToJson(const QString & filename)
 {
     QJsonArray taskArray;
@@ -85,6 +240,13 @@ bool MainWindow::writeToJson(const QString & filename)
     return false;
 }
 
+/**
+ * @brief Méthode loadFromJson qui charge les tâches depuis un fichier JSON
+ *
+ * @param filename Le nom du fichier JSON à charger
+ *
+ * @return True si le chargement a réussi, false sinon
+ */
 bool MainWindow::loadFromJson(const QString & filename)
 {
     // Création des dictionnaires pour les dépendances des tâches
@@ -189,7 +351,6 @@ bool MainWindow::loadFromJson(const QString & filename)
         }
     }
 
-
     // Precedentes
     keys = precedentesMap->keys();
     for (int i=0; i < keys.count(); i++)
@@ -223,6 +384,33 @@ bool MainWindow::loadFromJson(const QString & filename)
     return true;
 }
 
+
+/**
+ * @brief Méthode saveFile qui enregistre les tâches du projet sous le format .json
+ *
+ * @param filename Le nom du fichier à enregistrer
+ */
+void MainWindow::saveFile(const QString & filename)
+{
+    bool success = writeToJson(filename);
+
+    if (success)
+    {
+        QMessageBox::information(this, tr("Sauvegader"), tr("Le fichier ") + filename + tr("a bien été enregistré"));
+    }
+    else
+    {
+        QMessageBox::warning(this, tr("Sauvegader"), tr("Le fichier ") + filename + tr("n'a pas pû être enregistré"));
+    }
+}
+
+
+/**
+ * @brief Recherche une tâche par son identifiant
+ *
+ * @param id L'identifiant de la tâche à rechercher
+ * @return Un pointeur vers la tâche trouvée, ou NULL si aucune tâche correspondante n'est trouvée
+ */
 Tache* MainWindow::findTache(int id) const
 {
     for (Tache* t : *taches)
@@ -232,6 +420,13 @@ Tache* MainWindow::findTache(int id) const
     return NULL;
 }
 
+
+/**
+ * @brief Recherche une tâche par son nom
+ *
+ * @param name Le nom de la tâche à rechercher
+ * @return Un pointeur vers la tâche trouvée, ou NULL si aucune tâche correspondante n'est trouvée
+ */
 Tache* MainWindow::findTacheByName(QString name) const
 {
     for (Tache* t : *taches)
@@ -241,6 +436,13 @@ Tache* MainWindow::findTacheByName(QString name) const
     return NULL;
 }
 
+
+/**
+ * @brief Recherche une tâche composite par son identifiant
+ *
+ * @param id L'identifiant de la tâche composite à rechercher
+ * @return Un pointeur vers la tâche composite trouvée, ou NULL si aucune tâche composite correspondante n'est trouvée
+ */
 TacheComposite* MainWindow::findTacheComposite(int id) const
 {
     for (Tache* t : *taches)
@@ -254,11 +456,14 @@ TacheComposite* MainWindow::findTacheComposite(int id) const
 }
 
 
-int MainWindow::GenerateId()
-{
-    return id_ += 1;
-}
-
+/**
+ * @brief Ajoute une tâche terminale
+ *
+ * @param nom Le nom de la tâche
+ * @param duree La durée de la tâche
+ * @param dependance La dépendance de la tâche
+ * @param isPrincipale Booléen indiquant si la tâche est terminale
+ */
 void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dependance, bool isPrincipale)
 {
     Tache* t = new TacheTerminale(GenerateId(), "0", nom, duree, 0.0);
@@ -293,6 +498,15 @@ void MainWindow::AddTaskTerminal(const QString nom, int duree, const QString dep
     taches->append(t);
 }
 
+
+/**
+ * @brief Ajoute une tâche composite
+ *
+ * @param nom Le nom de la tâche
+ * @param duree La durée de la tâche
+ * @param dependance La dépendance de la tâche
+ * @param isPrincipale Booléen indiquant si la tâche appartient à la branche principale
+ */
 void MainWindow::AddTaskComposite(const QString nom, int duree, const QString dependance, bool isPrincipale)
 {
     Tache* t = new TacheComposite(GenerateId(), "0", nom, duree, 0.0);
@@ -329,6 +543,10 @@ void MainWindow::AddTaskComposite(const QString nom, int duree, const QString de
     taches->append(t);
 }
 
+
+/**
+ * @brief Met à jour la vue arborescente des tâches
+ */
 void MainWindow::UpdateTreeView()
 {
     // Création du modèle
@@ -363,6 +581,11 @@ void MainWindow::UpdateTreeView()
     ui->treeView->show();
 }
 
+
+
+/**
+ * @brief Met à jour la vue en tableau des tâches
+ */
 void MainWindow::UpdateTableView()
 {
     // Création du modèle
@@ -371,7 +594,7 @@ void MainWindow::UpdateTableView()
 
     // Modification des labels des colonnes
     QStringList columnLabels;
-    columnLabels << "Num" << "Nom";
+    columnLabels << tr("Num") << tr("Nom");
     model->setHorizontalHeaderLabels(columnLabels);
 
 
@@ -380,7 +603,7 @@ void MainWindow::UpdateTableView()
 
     for (const Tache& tache : *taches)
     {
-        row = tache.addToList();
+        row = tache.addToTable();
         model->appendRow(row);
         row.clear();
     }
@@ -391,115 +614,13 @@ void MainWindow::UpdateTableView()
     connect(ui->tableView, SIGNAL(clicked(const QModelIndex &)), this, SLOT(onTableViewElementSelected(const QModelIndex &)));
 }
 
-void MainWindow::on_actionAjouter_triggered()
+
+/**
+ * @brief Génère un nouvel identifiant unique pour une tâche
+ *
+ * @return Le nouvel identifiant généré
+ */
+int MainWindow::GenerateId()
 {
-    addTasks* dialogBox = new addTasks();
-    QList<QString> l;
-    Q_FOREACH(const Tache &t , *taches)
-    {
-        if (idsComposite->contains(t.getId()) || (!(t.getNum().contains(".")) && t.getSuivantes().length()==0))
-        {
-            l.append(t.getNom());
-        }
-    }
-
-    dialogBox->fillAllTaks(l);
-    dialogBox->exec();
-
-    if (!dialogBox->getAccepted()) return;
-    nameString = dialogBox->getNameString();
-    durationInt = dialogBox->getDurationInt();
-    dependanceString = dialogBox->getDependanceString();
-    isTerminal = dialogBox->getIsTerminal();
-    isPrincipale = dialogBox->getIsPrincipale();
-
-    if (isTerminal)
-    {
-        AddTaskTerminal(nameString, durationInt, dependanceString, isPrincipale);
-    }
-    else
-    {
-        AddTaskComposite(nameString, durationInt, dependanceString, isPrincipale);
-    }
-
-    UpdateTreeView();
-    UpdateTableView();
+    return id_ += 1;
 }
-
-void MainWindow::on_actionOuvrir_triggered()
-{
-
-    QString filename = QFileDialog::getOpenFileName(this, tr("Open file"), QDir::currentPath(), "Text Files (*.json)");
-    if(!loadFromJson(filename))
-    {
-        QMessageBox::warning(this, tr("Erreur"), tr("Impossible de charger le fichier"));
-    }
-
-    UpdateTreeView();
-    UpdateTableView();
-}
-
-void MainWindow::onTableViewElementSelected(const QModelIndex &index)
-{
-    if (index.isValid())
-    {
-        QVariant data = ui->tableView->model()->data(index);
-
-        Tache* t = findTacheByName(data.toString());
-        if (t==NULL) return;
-
-        ui->DescriptionLabel->setText("<center><b>Tache n°" + t->getNum() + "</b></center>");
-        ui->nameString->setText(t->getNom());
-        ui->time->setValue(t->getDuree());
-        ui->completion->setValue(t->getCompletion());
-
-        QString type = "tâche terminale";
-        if (idsComposite->contains(t->getId())) type = "tâche composite";
-
-        ui->taskType->setText("Type : " + type);
-
-
-        if (!t->getPrecedentes().empty())
-        {
-            ui->precedenteName->setText("Précédente : " + t->getPrecedentes()[0].getNom());
-        }
-        else
-        {
-            ui->precedenteName->setText("Précédente : / ");
-        }
-
-        if (!t->getSuivantes().empty())
-        {
-            ui->suivanteName->setText("Suivante : " + t->getSuivantes()[0].getNom());
-        }
-        else
-        {
-            ui->suivanteName->setText("Suivante : / ");
-        }
-
-        descriptionTask_ = t;
-    }
-}
-
-void MainWindow::on_pushButton_clicked()
-{
-    QString newName = ui->nameString->text();
-    int newDuree = ui->time->value();
-    double newCompletion = ui->completion->value();
-
-    descriptionTask_->SetNom(newName);
-    descriptionTask_->setDuree(newDuree);
-    descriptionTask_->setCompletion(newCompletion);
-
-    UpdateTreeView();
-    UpdateTableView();
-}
-
-void MainWindow::on_actionSupprimer_triggered()
-{
-    // delete descriptionTask_;
-
-    // UpdateTableView();
-    // UpdateTableView();
-}
-
